@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "832370143605",
+    "firebase_url": "https://roam-free-app.firebaseio.com",
+    "project_id": "roam-free-app",
+    "storage_bucket": "roam-free-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832370143605:android:1c24d5932deb7d7a1ea33c",
+        "android_client_info": {
+          "package_name": "com.roamfree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832370143605-f88tjpd1hdm3fia1198539jc1pohf7dj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBIlvfQb92QKR5bnYb-ZTO6_Scg_zpnbc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832370143605-f88tjpd1hdm3fia1198539jc1pohf7dj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "832370143605-jjngtr8hm5lbp27bmbit6sj0gfrlvrqi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.roamfree"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
