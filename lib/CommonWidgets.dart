@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:roam_free/UserRegistrationAndLogin.dart';
 import 'Home.dart';
 import 'EditHostsPage.dart';
 
@@ -16,8 +15,9 @@ class AppDrawer extends StatelessWidget {
             child: FlatButton(
               child: Text('Login'),
               onPressed: () {
-                if (ModalRoute.of(context)?.settings?.name != UserLogin.id)
-                  Navigator.pushNamed(context, UserLogin.id);
+                //if (ModalRoute.of(context)?.settings?.name != UserLogin.id)
+                //  Navigator.pushNamed(context, UserLogin.id);
+                //TODO Account management here
               },
             ),
             decoration: BoxDecoration(

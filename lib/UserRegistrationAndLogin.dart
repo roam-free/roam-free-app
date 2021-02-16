@@ -1,75 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'CommonWidgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class UserLogin extends StatefulWidget {
-  static const String id = 'userlogin';
-
-  @override
-  _UserLoginState createState() => _UserLoginState();
-}
-
-class _UserLoginState extends State<UserLogin> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('test'),
-        actions: <Widget>[
-          Builder(builder: (BuildContext context) {
-            return FlatButton(
-              child: const Text('Sign out'),
-              textColor: Theme.of(context).buttonColor,
-              onPressed: () async {
-                // ignore: await_only_futures
-                final User user = await _auth.currentUser;
-                if (user == null) {
-                  Scaffold.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('No one has signed in.'),
-                    ),
-                  );
-                  return;
-                }
-                await _auth.signOut();
-                final String uid = user.uid;
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(uid + ' has successfully signed out'),
-                  ),
-                );
-              },
-            );
-          }),
-        ],
-      ),
-      drawer: AppDrawer(),
-      body: Builder(builder: (BuildContext context) {
-        return ListView(
-          scrollDirection: Axis.vertical,
-          padding: const EdgeInsets.all(16),
-          children: <Widget>[
-            _RegisterEmailSection(),
-            _EmailPasswordForm(),
-          ],
-        );
-      }),
-      bottomNavigationBar: NavBar(),
-    );
-  }
-}
-
-class _RegisterEmailSection extends StatefulWidget {
+class RegisterEmailSection extends StatefulWidget {
   final String title = 'Registration';
   @override
-  __RegisterEmailSectionState createState() => __RegisterEmailSectionState();
+  _RegisterEmailSectionState createState() => _RegisterEmailSectionState();
 }
 
-class __RegisterEmailSectionState extends State<_RegisterEmailSection> {
+class _RegisterEmailSectionState extends State<RegisterEmailSection> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _success;
@@ -82,6 +26,26 @@ class __RegisterEmailSectionState extends State<_RegisterEmailSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          TextFormField(
+            controller: _firstNameController,
+            decoration: const InputDecoration(labelText: 'First Name'),
+            validator: (String value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: _lastNameController,
+            decoration: const InputDecoration(labelText: 'Last Name'),
+            validator: (String value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
           TextFormField(
             controller: _emailController,
             decoration: const InputDecoration(labelText: 'Email'),
@@ -111,7 +75,7 @@ class __RegisterEmailSectionState extends State<_RegisterEmailSection> {
                   _register();
                 }
               },
-              child: const Text('Submit'),
+              child: const Text('Register'),
             ),
           ),
           Container(
@@ -139,6 +103,7 @@ class __RegisterEmailSectionState extends State<_RegisterEmailSection> {
           _success = true;
           _userEmail = user.email;
         });
+        //TODO Add user data to firestore
       } else {
         setState(() {
           _success = true;
@@ -160,12 +125,12 @@ class __RegisterEmailSectionState extends State<_RegisterEmailSection> {
   }
 }
 
-class _EmailPasswordForm extends StatefulWidget {
+class EmailPasswordForm extends StatefulWidget {
   @override
-  __EmailPasswordFormState createState() => __EmailPasswordFormState();
+  _EmailPasswordFormState createState() => _EmailPasswordFormState();
 }
 
-class __EmailPasswordFormState extends State<_EmailPasswordForm> {
+class _EmailPasswordFormState extends State<EmailPasswordForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -180,7 +145,7 @@ class __EmailPasswordFormState extends State<_EmailPasswordForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            child: const Text('Test sign in with email and password'),
+            child: const Text('Login with your Roam Free account'),
             padding: const EdgeInsets.all(16),
             alignment: Alignment.center,
           ),
@@ -213,7 +178,7 @@ class __EmailPasswordFormState extends State<_EmailPasswordForm> {
                   _signInWithEmailAndPassword();
                 }
               },
-              child: const Text('Submit'),
+              child: const Text('Login'),
             ),
           ),
           Container(

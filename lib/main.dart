@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'Repository.dart';
-import 'UserRegistrationAndLogin.dart';
+import 'Landing.dart';
+import 'Register.dart';
 
 // Pages
 import 'Home.dart';
@@ -22,11 +23,12 @@ class MyApp extends StatelessWidget {
         create: (_) => HostRepository(FirebaseFirestore.instance),
         child: MaterialApp(
             // Routes are defined here
-            initialRoute: Home.id,
+            initialRoute: LandingPage.id,
             routes: {
+              LandingPage.id: (context) => LandingPage(),
+              RegisterPage.id: (context) => RegisterPage(),
               Home.id: (context) => Home(),
               EditHostsPage.id: (context) => EditHostsPage(),
-              UserLogin.id: (context) => UserLogin(),
             }));
   }
 }
