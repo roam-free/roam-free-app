@@ -1,26 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:roam_free/models/Host.dart';
+import 'package:roam_free/HostPage.dart';
+import 'package:roam_free/Repository.dart';
 import 'package:provider/provider.dart';
-import 'CommonWidgets.dart';
-import 'Repository.dart';
-import 'Host.dart';
-import 'HostPage.dart';
 
-// Homepage
-class Home extends StatelessWidget {
-  static const String id = 'home';
+//TODO split out logic insto view model
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Roam Free')),
-      drawer: AppDrawer(),
-      body: HostList(),
-      bottomNavigationBar: NavBar(),
-    );
-  }
-}
-
-// Builds list of hosts for the home page
 class HostList extends StatefulWidget {
   @override
   _HostListState createState() => _HostListState();

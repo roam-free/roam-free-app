@@ -1,6 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 
-import 'Host.dart';
+import 'models/Host.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HostRepository {

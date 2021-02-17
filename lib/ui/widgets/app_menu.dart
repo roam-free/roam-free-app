@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:roam_free/app/locator.dart';
+import 'package:roam_free/app/router.gr.dart';
+import 'package:stacked_services/stacked_services.dart';
 
-// App Drawer
-class AppDrawer extends StatelessWidget {
+class AppMenu extends StatefulWidget {
+  final NavigationService _navigationService = locator<NavigationService>();
+
+  @override
+  _AppMenuState createState() => _AppMenuState();
+}
+
+class _AppMenuState extends State<AppMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -13,8 +22,6 @@ class AppDrawer extends StatelessWidget {
             child: FlatButton(
               child: Text('Login'),
               onPressed: () {
-                //if (ModalRoute.of(context)?.settings?.name != UserLogin.id)
-                //  Navigator.pushNamed(context, UserLogin.id);
                 //TODO Account management here
               },
             ),
@@ -27,14 +34,15 @@ class AppDrawer extends StatelessWidget {
               onTap: () {
                 //Update app state
                 print('Item 1 pressed');
-                Navigator.pop(context);
+                widget._navigationService.popRepeated(1);
+                widget._navigationService.navigateTo(Routes.homeView);
               }),
           ListTile(
-              title: Text('Edit Hosts'),
+              title: Text('User Accounts'),
               onTap: () {
-                //Update app state
+                widget._navigationService.popRepeated(1);
+                widget._navigationService.navigateTo(Routes.userAccountView);
                 print('item 2 pressed');
-                Navigator.pop(context);
               }),
         ],
       ),

@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:roam_free/app/locator.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'Repository.dart';
-import 'Landing.dart';
-import 'Register.dart';
 
 // Pages
-import 'Home.dart';
-import 'EditHostsPage.dart';
+import 'app/router.gr.dart' as R;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  setupLocator();
   runApp(MyApp());
 }
 
@@ -22,13 +22,10 @@ class MyApp extends StatelessWidget {
     return Provider<HostRepository>(
         create: (_) => HostRepository(FirebaseFirestore.instance),
         child: MaterialApp(
-            // Routes are defined here
-            initialRoute: LandingPage.id,
-            routes: {
-              LandingPage.id: (context) => LandingPage(),
-              RegisterPage.id: (context) => RegisterPage(),
-              Home.id: (context) => Home(),
-              EditHostsPage.id: (context) => EditHostsPage(),
-            }));
+          // Routes are defined here
+          navigatorKey: StackedService.navigatorKey,
+          initialRoute: R.Routes.loginView,
+          onGenerateRoute: R.Router().onGenerateRoute,
+        ));
   }
 }

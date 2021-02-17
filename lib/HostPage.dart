@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'Host.dart';
+import 'models/Host.dart';
 import 'CommonWidgets.dart';
+import 'package:roam_free/ui/views/nav_bar/nav_bar_view.dart';
 
 class HostPage extends StatefulWidget {
   final Host host;
@@ -28,7 +29,7 @@ class _HostPageState extends State<HostPage> {
           Text(widget.host.location)
         ],
       )),
-      bottomNavigationBar: NavBar(),
+      bottomNavigationBar: NavBarView(),
     );
   }
 }
