@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:roam_free/models/Host.dart';
 import 'package:roam_free/ui/views/menu/menu_view.dart';
@@ -20,8 +21,9 @@ class HostView extends StatelessWidget {
         body: Container(
             child: Column(
           children: [
-            Image.network(
-              host.images[0],
+            CachedNetworkImage(
+              placeholder: (context, url) => CircularProgressIndicator(),
+              imageUrl: host.images[0],
               fit: BoxFit.fill,
               height: 350,
             ),

@@ -5,10 +5,14 @@ import 'package:roam_free/ui/widgets/input_field.dart';
 import 'package:stacked/stacked.dart';
 import 'package:roam_free/ui/views/signup/signup_view_model.dart';
 
+import '../../shared/ui_helpers.dart';
+
 class SignupView extends StatelessWidget {
   static const String id = 'signup_view';
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +32,17 @@ class SignupView extends StatelessWidget {
                   fontSize: 38,
                 ),
               ),
-              //TODO verticalSpaceLarge,
-              // TODO: Add additional user data here to save (episode 2)
+              verticalSpaceLarge,
+              InputField(
+                placeholder: 'First Name',
+                controller: firstNameController,
+              ),
+              verticalSpaceSmall,
+              InputField(
+                placeholder: 'Last Name',
+                controller: lastNameController,
+              ),
+              verticalSpaceSmall,
               InputField(
                 placeholder: 'Email',
                 controller: emailController,

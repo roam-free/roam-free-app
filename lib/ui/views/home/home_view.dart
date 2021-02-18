@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:roam_free/models/Host.dart';
 import 'package:roam_free/ui/views/host/host_view.dart';
@@ -52,11 +53,13 @@ class HomeView extends StatelessWidget {
                                       title: Text(host.name),
                                       subtitle: Text(host.location),
                                     ),
-                                    Image.network(
-                                      host.images[0],
+                                    CachedNetworkImage(
+                                      placeholder: (context, url) =>
+                                          LinearProgressIndicator(),
+                                      imageUrl: host.images[0],
                                       fit: BoxFit.fill,
                                       height: 350,
-                                    )
+                                    ),
                                   ]),
                             )),
                       );
