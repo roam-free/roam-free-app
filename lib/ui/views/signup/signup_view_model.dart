@@ -11,16 +11,24 @@ class SignupViewModel extends BaseViewModel {
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
-  Future signUp({@required String email, @required String password}) async {
+  Future signUp({
+    @required String email,
+    @required String password,
+    @required String firstName,
+    @required String lastName,
+  }) async {
     setBusy(true);
 
     var result = await _authentificationService.signUpWithEmail(
-        email: email, password: password);
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName);
 
     setBusy(false);
     if (result is bool) {
       if (result) {
-        _navigationService.navigateTo(Routes.homeView);
+        _navigationService.clearStackAndShow(Routes.homeView);
       } else {
         await _dialogService.showDialog(
           title: 'Sign Up Failure',
