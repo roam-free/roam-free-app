@@ -40,6 +40,9 @@ dependencies:
   provider: 
   fluttertoast: 
   cached_network_image: 
+  location:
+  geolocator:
+
   
 
 dev_dependencies:

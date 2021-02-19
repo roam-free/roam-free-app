@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:roam_free/models/Host.dart';
-import 'package:roam_free/models/User.dart';
+import 'package:roam_free/models/host.dart';
+import 'package:roam_free/models/user.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
