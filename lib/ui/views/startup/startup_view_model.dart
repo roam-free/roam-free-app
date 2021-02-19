@@ -15,9 +15,9 @@ class StartupViewModel extends BaseViewModel {
   Future handleStartUpLogic() async {
     var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
     if (hasLoggedInUser) {
-      _authenticationService.updateCurrentUser();
+      await _authenticationService.updateCurrentUser();
       _locationService.requestPermission();
-      _locationService.updatePosition();
+      await _locationService.updatePosition();
       _navigationService.navigateTo(Routes.homeView);
     } else {
       _navigationService.navigateTo(Routes.loginView);

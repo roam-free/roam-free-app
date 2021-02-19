@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:roam_free/models/host.dart';
 import 'package:roam_free/ui/views/host/host_view.dart';
 import 'package:roam_free/ui/views/menu/menu_view.dart';
+import 'package:roam_free/ui/widgets/host_card.dart';
 import 'package:stacked/stacked.dart';
 import 'package:roam_free/ui/views/home/home_view_model.dart';
 import 'package:roam_free/ui/views/nav_bar/nav_bar_view.dart';
@@ -30,38 +31,24 @@ class HomeView extends StatelessWidget {
                   if (snapshot.hasData) {
                     return ListView(
                         children: snapshot.data.map((Host host) {
-                      print(host.images[0]);
-                      return Card(
-                        child: InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            onTap: () {
-                              print('${host.name} tapped.');
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HostView(host)),
-                              );
-                            },
-                            child: Container(
-                              width: 300,
-                              height: 500,
-                              child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    ListTile(
-                                      title: Text(host.name),
-                                      subtitle: Text(host.location),
-                                    ),
-                                    CachedNetworkImage(
-                                      placeholder: (context, url) =>
-                                          LinearProgressIndicator(),
-                                      imageUrl: host.images[0],
-                                      fit: BoxFit.fill,
-                                      height: 350,
-                                    ),
-                                  ]),
-                            )),
+                      host.calculateDistance(model.getUserPosition());
+                      return HostCard(
+                        title: host.name,
+                        subtitle: host.location,
+                        image: CachedNetworkImage(
+                          imageUrl: host.images[0],
+                          fit: BoxFit.fill,
+                          height: 350,
+                        ),
+                        bottomLine: '${host.distance.toStringAsFixed(2)} km',
+                        onPressed: () {
+                          print('${host.name} tapped.');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HostView(host)),
+                          );
+                        },
                       );
                     }).toList());
                   } else {
