@@ -35,9 +35,18 @@ class UserAccountView extends StatelessWidget {
             builder: (BuildContext context) {
               return Column(
                 children: [
-                  Text('Name: ${model.getName()}'),
-                  Text('Email: ${model.getEmail()}'),
-                  Text('Location: ${model.getLocation()}'),
+                  ListTile(
+                    title: Text('Name'),
+                    subtitle: Text(model.getName()),
+                  ),
+                  ListTile(
+                    title: Text('Email'),
+                    subtitle: Text(model.getEmail()),
+                  ),
+                  ListTile(
+                    title: Text('Location'),
+                    subtitle: Text('${model.getLocation()}'),
+                  ),
                 ],
               );
             },

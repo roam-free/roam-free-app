@@ -26,6 +26,13 @@ class NavBarView extends StatelessWidget {
               },
               child: Icon(Icons.person, color: Colors.white, size: 40),
             ),
+            FlatButton(
+              onPressed: () {
+                if (ModalRoute.of(context).settings.name != '/search-view')
+                  model.navigateToSearch();
+              },
+              child: Icon(Icons.search, color: Colors.white, size: 40),
+            ),
           ],
         ),
       ),

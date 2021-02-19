@@ -17,7 +17,6 @@ class HostView extends StatelessWidget {
     return ViewModelBuilder<HostViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(title: Text(host.name)),
-        drawer: MenuView(),
         body: Container(
             child: Column(
           children: [
