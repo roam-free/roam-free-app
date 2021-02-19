@@ -11,7 +11,7 @@ class FirestoreService {
     return _firestore.collection('hosts').snapshots().map((snapshot) {
       return snapshot.docs
           .map((document) => Host(document['name'], document['location'],
-              document.id.toString(), document['images']))
+              document.id.toString(), document['position'], document['images']))
           .toList();
     });
   }
