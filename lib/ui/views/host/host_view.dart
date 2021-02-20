@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:roam_free/models/host.dart';
-import 'package:roam_free/ui/views/menu/menu_view.dart';
 import 'package:roam_free/ui/views/nav_bar/nav_bar_view.dart';
 import 'package:stacked/stacked.dart';
 
