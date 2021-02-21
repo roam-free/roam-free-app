@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:roam_free/app/router.gr.dart';
 import 'package:roam_free/services/authentication_service.dart';
+import 'package:roam_free/services/location_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -10,6 +11,7 @@ class SignupViewModel extends BaseViewModel {
       locator<AuthenticationService>();
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final LocationService _locationService = locator<LocationService>();
 
   Future signUp({
     @required String email,
@@ -29,6 +31,7 @@ class SignupViewModel extends BaseViewModel {
     setBusy(false);
     if (result is bool) {
       if (result) {
+        await _locationService.updatePosition();
         _navigationService.clearStackAndShow(Routes.homeView);
       } else {
         await _dialogService.showDialog(

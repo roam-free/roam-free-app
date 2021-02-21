@@ -30,27 +30,29 @@ class HomeView extends StatelessWidget {
                 default:
                   if (snapshot.hasData) {
                     return ListView(
+                        padding: EdgeInsets.all(10),
                         children: snapshot.data.map((Host host) {
-                      host.calculateDistance(model.getUserPosition());
-                      return HostCard(
-                        title: host.name,
-                        subtitle: host.location,
-                        image: CachedNetworkImage(
-                          imageUrl: host.images[0],
-                          fit: BoxFit.fill,
-                          height: 350,
-                        ),
-                        bottomLine: '${host.distance.toStringAsFixed(2)} km',
-                        onPressed: () {
-                          print('${host.name} tapped.');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HostView(host)),
+                          host.calculateDistance(model.getUserPosition());
+                          return HostCard(
+                            title: host.name,
+                            subtitle: host.location,
+                            image: CachedNetworkImage(
+                              imageUrl: host.images[0],
+                              fit: BoxFit.fill,
+                              height: 350,
+                            ),
+                            bottomLine:
+                                '${host.distance.toStringAsFixed(2)} km',
+                            onPressed: () {
+                              print('${host.name} tapped.');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HostView(host)),
+                              );
+                            },
                           );
-                        },
-                      );
-                    }).toList());
+                        }).toList());
                   } else {
                     //TODO Better no data message
                     return Text('No Data');

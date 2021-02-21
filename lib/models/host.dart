@@ -2,13 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Host {
-  Host(this.name, this.location, this.id, this.position, this.images);
+  Host(this.name, this.location, this.description, this.id, this.position,
+      this.images, this.phone, this.email);
 
   final String name;
   final String location;
+  final String description;
   final String id;
   final GeoPoint position;
   final List images;
+  final String phone;
+  final String email;
   double distance;
 
   Position getPosition() {

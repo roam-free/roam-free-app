@@ -17,14 +17,14 @@ class NavBarViewModel extends BaseViewModel {
 
   Future navigateToUserAccount() async {
     //_authenticationService.updateCurrentUser();
-    await _navigationService.navigateTo(
+    await _navigationService.clearTillFirstAndShow(
       Routes.userAccountView,
     );
   }
 
   Future navigateToSearch() async {
     //_authenticationService.updateCurrentUser();
-    await _navigationService.navigateTo(
+    await _navigationService.clearTillFirstAndShow(
       Routes.searchView,
     );
   }

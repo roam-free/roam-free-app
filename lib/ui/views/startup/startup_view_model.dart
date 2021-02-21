@@ -18,7 +18,7 @@ class StartupViewModel extends BaseViewModel {
       await _authenticationService.updateCurrentUser();
       _locationService.requestPermission();
       await _locationService.updatePosition();
-      _navigationService.navigateTo(Routes.homeView);
+      _navigationService.clearStackAndShow(Routes.homeView);
     } else {
       _navigationService.navigateTo(Routes.loginView);
     }

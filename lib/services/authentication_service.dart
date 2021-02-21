@@ -42,7 +42,7 @@ class AuthenticationService {
           lastName: lastName,
         ),
       );
-
+      await _populateCurrentUser(authResult.user);
       return authResult.user != null;
     } catch (e) {
       return e.message;

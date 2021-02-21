@@ -10,8 +10,18 @@ class FirestoreService {
   Stream<List<Host>> hostStream() {
     return _firestore.collection('hosts').snapshots().map((snapshot) {
       return snapshot.docs
-          .map((document) => Host(document['name'], document['location'],
-              document.id.toString(), document['position'], document['images']))
+          .map(
+            (document) => Host(
+              document['name'],
+              document['location'],
+              document['description'],
+              document.id.toString(),
+              document['position'],
+              document['images'],
+              document['phone'],
+              document['email'],
+            ),
+          )
           .toList();
     });
   }

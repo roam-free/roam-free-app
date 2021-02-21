@@ -42,6 +42,7 @@ dependencies:
   cached_network_image: 
   location:
   geolocator:
+  url_launcher:
 
   
 
