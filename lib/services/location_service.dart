@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
@@ -31,5 +32,18 @@ class LocationService {
         _currentPosition.longitude,
         hostPosition.latitude,
         hostPosition.longitude);
+  }
+
+  Future<List<Placemark>> getPlacemarksFromCoordinates(
+      double latitude, double longitude) async {
+    print('location: $latitude, $longitude');
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(latitude, longitude);
+    return placemarks;
+  }
+
+  Future<List<Location>> getLocationsFromAddress(String address) async {
+    List<Location> location = await locationFromAddress(address);
+    return location;
   }
 }

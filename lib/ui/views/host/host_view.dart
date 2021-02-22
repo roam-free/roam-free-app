@@ -99,7 +99,6 @@ class HostView extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: NavBarView(),
       ),
       viewModelBuilder: () => HostViewModel(),
     );

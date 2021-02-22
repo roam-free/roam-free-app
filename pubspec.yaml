@@ -40,8 +40,8 @@ dependencies:
   provider: 
   fluttertoast: 
   cached_network_image: 
-  location:
   geolocator:
+  geocoding:
   url_launcher:
   google_maps_flutter: 
   maps_launcher:

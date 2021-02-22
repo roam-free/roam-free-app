@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:roam_free/app/locator.dart';
 
@@ -8,6 +9,7 @@ import 'package:stacked/stacked.dart';
 class HomeViewModel extends BaseViewModel {
   final FirestoreService _firestoreService = locator<FirestoreService>();
   final LocationService _locationService = locator<LocationService>();
+  GlobalKey<ScaffoldState> drawerKey = GlobalKey();
   var distance;
   var hostsStream;
 
