@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:roam_free/models/host.dart';
@@ -8,37 +6,7 @@ import 'package:roam_free/ui/widgets/icon_text_button.dart';
 import 'package:stacked/stacked.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'host_view_model.dart';
-
-// class HostView extends StatelessWidget {
-//   final Host host;
-
-//   HostView(this.host);
-
-//   Completer<GoogleMapController> _controller = Completer();
-// // 2
-//   static final CameraPosition _myLocation = CameraPosition(
-//     target: LatLng(0, 0),
-//   );
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(),
-//       body: ListView(
-//         children: [
-//           Container(
-//             child: GoogleMap(
-//               initialCameraPosition: _myLocation,
-//               onMapCreated: (GoogleMapController controller) {
-//                 _controller.complete(controller);
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+import 'package:maps_launcher/maps_launcher.dart';
 
 class HostView extends StatelessWidget {
   final Host host;
@@ -48,6 +16,7 @@ class HostView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HostViewModel>.reactive(
+      onModelReady: (model) => model.initialise(host),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(title: Text(host.name)),
         body: SafeArea(
@@ -97,7 +66,7 @@ class HostView extends StatelessWidget {
               ),
               IconTextButton(
                 color: Colors.greenAccent[400],
-                onPressed: () => model.callNow(host.phone),
+                onPressed: () => model.callNow(),
                 icon: Icon(Icons.phone),
                 text: "Phone Now",
               ),
@@ -105,12 +74,27 @@ class HostView extends StatelessWidget {
                 height: 10,
               ),
               IconTextButton(
-                onPressed: () => model.emailNow(host.email),
+                onPressed: () => model.emailNow(),
                 icon: Icon(Icons.email),
                 text: "Email Now",
               ),
               SizedBox(
                 height: 15,
+              ),
+              SizedBox(
+                height: 400,
+                child: GoogleMap(
+                  initialCameraPosition: model.initialCameraPosition,
+                  onMapCreated: (controller) async {
+                    await model.onMapCreated(controller);
+                  },
+                  markers: model.markers,
+                  mapToolbarEnabled: true,
+                  onTap: (_) {
+                    MapsLauncher.launchCoordinates(
+                        host.position.latitude, host.position.longitude);
+                  },
+                ),
               ),
             ],
           ),
