@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'app/router.gr.dart' as R;
+import 'app/router.gr.dart' as Router;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // Routes are defined here
       navigatorKey: StackedService.navigatorKey,
-      initialRoute: R.Routes.startupView,
-      onGenerateRoute: R.Router().onGenerateRoute,
+      initialRoute: Router.Routes.startupView,
+      onGenerateRoute: Router.Router().onGenerateRoute,
     );
   }
 }

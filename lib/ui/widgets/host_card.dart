@@ -1,7 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:roam_free/models/host.dart';
-import 'package:roam_free/ui/views/host/host_view.dart';
 
 class HostCard extends StatefulWidget {
   final String title;
