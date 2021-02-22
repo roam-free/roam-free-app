@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Host {
   Host(this.name, this.location, this.description, this.id, this.position,
@@ -18,6 +19,12 @@ class Host {
   Position getPosition() {
     Position pos = new Position(
         latitude: position.latitude, longitude: position.longitude);
+    return pos;
+  }
+
+  LatLng getLatLng() {
+    LatLng pos = new LatLng(position.latitude, position.longitude);
+
     return pos;
   }
 

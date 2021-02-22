@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:roam_free/ui/views/nav_bar/nav_bar_view_model.dart';
+import 'package:roam_free/ui/widgets/nav_bar/nav_bar_view_model.dart';
 
 class NavBarView extends StatelessWidget {
   @override

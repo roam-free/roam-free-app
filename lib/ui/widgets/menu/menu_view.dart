@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:roam_free/ui/views/menu/menu_view_model.dart';
+import 'package:roam_free/ui/widgets/menu/menu_view_model.dart';
 import 'package:stacked/stacked.dart';
 
 class MenuView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<MenuViewModel>.reactive(
+      onModelReady: (model) => model.initialise(),
       viewModelBuilder: () => MenuViewModel(),
       builder: (context, model, child) => Drawer(
         child: ListView(
@@ -14,9 +15,20 @@ class MenuView extends StatelessWidget {
           children: <Widget>[
             DrawerHeader(
               child: FlatButton(
-                child: Text('Login'),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: model.profilePicture,
+                      radius: 40,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(model.user.email),
+                  ],
+                ),
                 onPressed: () {
-                  //TODO Account management here
+                  model.navigateToUserAccount();
                 },
               ),
               decoration: BoxDecoration(
