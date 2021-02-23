@@ -17,10 +17,8 @@ class LocationBoxViewModel extends BaseViewModel {
   Function callback;
 
   Future initialise(updateDistance) async {
-    print('location: start searching');
     locationText = await getLocationFromCurrentPosition();
     notifyListeners();
-    print('location: $locationText');
     callback = updateDistance;
   }
 
@@ -29,13 +27,12 @@ class LocationBoxViewModel extends BaseViewModel {
   }
 
   refreshHome() {
-    print('####: refresh');
     callback();
   }
 
   Future<String> getLocationFromCurrentPosition() async {
     Position pos = _locationService.currentPostion;
-    print('location: $pos');
+
     List<Placemark> results = await _locationService
         .getPlacemarksFromCoordinates(pos.latitude, pos.longitude);
     String location = results[0].locality;
