@@ -46,26 +46,30 @@ class HomeView extends StatelessWidget {
                               model.host.calculateDistance(
                                 model.getUserPosition(),
                               );
-                              return HostCard(
-                                title: model.host.name,
-                                subtitle: model.host.location,
-                                image: CachedNetworkImage(
-                                  imageUrl: model.host.images[0],
-                                  fit: BoxFit.fill,
-                                  height: 350,
-                                ),
-                                bottomLine:
-                                    '${model.host.distance.toStringAsFixed(2)} km',
-                                onPressed: () {
-                                  print('${model.host.name} tapped.');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            HostView(model.host)),
-                                  );
-                                },
-                              );
+                              if (host.distance <= 5) {
+                                return HostCard(
+                                  title: model.host.name,
+                                  subtitle: model.host.location,
+                                  image: CachedNetworkImage(
+                                    imageUrl: model.host.images[0],
+                                    fit: BoxFit.fill,
+                                    height: 350,
+                                  ),
+                                  bottomLine:
+                                      '${model.host.distance.toStringAsFixed(2)} km',
+                                  onPressed: () {
+                                    print('${model.host.name} tapped.');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HostView(model.host)),
+                                    );
+                                  },
+                                );
+                              } else {
+                                return Container();
+                              }
                             }).toList());
                       } else {
                         //TODO Better no data message

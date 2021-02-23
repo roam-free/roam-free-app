@@ -47,6 +47,7 @@ dependencies:
   maps_launcher:
   flutter_google_places:
   google_maps_webservice:
+  geoflutterfire:
 
   
 

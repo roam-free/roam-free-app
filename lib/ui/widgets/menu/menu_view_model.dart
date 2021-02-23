@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:roam_free/app/router.gr.dart';
+import 'package:roam_free/models/filter.dart';
 import 'package:roam_free/models/user.dart';
 import 'package:roam_free/services/authentication_service.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -13,6 +15,7 @@ class MenuViewModel extends BaseViewModel {
       locator<AuthenticationService>();
   User user;
   ImageProvider profilePicture = AssetImage('assets/images/profile_pic.png');
+  final FilterService _filterService = locator<FilterService>();
 
   Future initialise() async {
     await getCurrentUser();
@@ -35,5 +38,14 @@ class MenuViewModel extends BaseViewModel {
 
   Future getCurrentUser() async {
     user = _authenticationService.currentUser;
+  }
+
+  List<Filter> getFilters() {
+    return _filterService.filters;
+  }
+
+  slideDistance(value) {
+    getFilters()[0].value = value;
+    notifyListeners();
   }
 }

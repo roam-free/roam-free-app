@@ -1,16 +1,25 @@
 import 'dart:async';
 
 import 'package:geocoding/geocoding.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:roam_free/app/locator.dart';
+import 'package:roam_free/services/authentication_service.dart';
+import 'package:roam_free/services/firestore_service.dart';
 
 class LocationService {
-  Position _currentPosition;
+  final FirestoreService _firestoreService = locator<FirestoreService>();
+  final AuthenticationService _authenticationService =
+      locator<AuthenticationService>();
+  final geo = Geoflutterfire();
 
+  Position _currentPosition;
   Position get currentPostion => _currentPosition;
 
   Future updatePosition() async {
     _currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
+    addUserLocation();
   }
 
   void requestPermission() async {
@@ -42,5 +51,13 @@ class LocationService {
 
   void setPositionManual(Position position) {
     _currentPosition = position;
+    addUserLocation();
+  }
+
+  void addUserLocation() {
+    GeoFirePoint location = geo.point(
+        latitude: _currentPosition.latitude,
+        longitude: _currentPosition.longitude);
+    _firestoreService.addUserLocation('9f7lVSYMTRgASx80WPuw2IJpfic2', location);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:roam_free/services/authentication_service.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/firestore_service.dart';
 import 'package:roam_free/services/google_maps_service.dart';
 import 'package:roam_free/services/location_service.dart';
@@ -14,4 +15,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => LocationService());
   locator.registerLazySingleton(() => GoogleMapsService());
+  locator.registerLazySingleton(() => FilterService());
 }
