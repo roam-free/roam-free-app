@@ -1,18 +1,12 @@
 import 'dart:async';
 
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
   Position _currentPosition;
 
   Position get currentPostion => _currentPosition;
-
-  StreamSubscription<Position> positionStream =
-      Geolocator.getPositionStream().listen((Position position) {
-    // print(position == null
-    //     ? 'Unknown'
-    //     : position.latitude.toString() + ', ' + position.longitude.toString());
-  });
 
   Future updatePosition() async {
     _currentPosition = await Geolocator.getCurrentPosition(
@@ -25,11 +19,28 @@ class LocationService {
   }
 
   Future<double> distanceToHost(Position hostPosition) async {
-    await updatePosition();
+    //await updatePosition();
     return Geolocator.distanceBetween(
         _currentPosition.latitude,
         _currentPosition.longitude,
         hostPosition.latitude,
         hostPosition.longitude);
+  }
+
+  Future<List<Placemark>> getPlacemarksFromCoordinates(
+      double latitude, double longitude) async {
+    print('location: $latitude, $longitude');
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(latitude, longitude);
+    return placemarks;
+  }
+
+  Future<List<Location>> getLocationsFromAddress(String address) async {
+    List<Location> location = await locationFromAddress(address);
+    return location;
+  }
+
+  void setPositionManual(Position position) {
+    _currentPosition = position;
   }
 }

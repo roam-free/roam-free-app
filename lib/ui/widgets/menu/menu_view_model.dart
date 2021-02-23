@@ -29,6 +29,7 @@ class MenuViewModel extends BaseViewModel {
   }
 
   Future navigateToUserAccount() async {
+    _navigationService.popRepeated(1);
     _navigationService.clearTillFirstAndShow(Routes.userAccountView);
   }
 
