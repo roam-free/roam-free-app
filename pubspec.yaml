@@ -45,6 +45,8 @@ dependencies:
   url_launcher:
   google_maps_flutter: 
   maps_launcher:
+  flutter_google_places:
+  google_maps_webservice:
 
   
 

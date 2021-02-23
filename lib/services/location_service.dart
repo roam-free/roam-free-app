@@ -8,13 +8,6 @@ class LocationService {
 
   Position get currentPostion => _currentPosition;
 
-  StreamSubscription<Position> positionStream =
-      Geolocator.getPositionStream().listen((Position position) {
-    // print(position == null
-    //     ? 'Unknown'
-    //     : position.latitude.toString() + ', ' + position.longitude.toString());
-  });
-
   Future updatePosition() async {
     _currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -26,7 +19,7 @@ class LocationService {
   }
 
   Future<double> distanceToHost(Position hostPosition) async {
-    await updatePosition();
+    //await updatePosition();
     return Geolocator.distanceBetween(
         _currentPosition.latitude,
         _currentPosition.longitude,
@@ -45,5 +38,9 @@ class LocationService {
   Future<List<Location>> getLocationsFromAddress(String address) async {
     List<Location> location = await locationFromAddress(address);
     return location;
+  }
+
+  void setPositionManual(Position position) {
+    _currentPosition = position;
   }
 }

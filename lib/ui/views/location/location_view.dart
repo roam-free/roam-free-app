@@ -10,30 +10,17 @@ class LocationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<LocationViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () async {
+              model.searchPlaces(context);
+              print(model.prediction);
+            },
+          ),
+        ),
         body: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: 105,
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: InputField(
-                      controller: model.newLocationController,
-                      placeholder: 'Enter a new Location here',
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () async {
-                      await model.updateLocationListView();
-                    },
-                  )
-                ],
-              ),
-            ),
             Container(
               height: 5,
               decoration: BoxDecoration(
@@ -41,22 +28,7 @@ class LocationView extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  if (model.locations.isEmpty == false) {
-                    print('bool: ${model.locations}');
-                    return ListTile(
-                      title: Text(
-                        '${model.locations[index]}',
-                      ),
-                    );
-                  } else {
-                    //TODO add previous searches here
-                    return null;
-                  }
-                },
-              ),
+              child: Container(),
             ),
           ],
         ),

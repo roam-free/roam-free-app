@@ -12,7 +12,7 @@ class LocationBoxView extends StatelessWidget {
     return ViewModelBuilder<LocationBoxViewModel>.reactive(
       onModelReady: (model) => model.initialise(),
       builder: (context, model, child) => FlatButton(
-        onPressed: () => model.navigateToLocation(),
+        onPressed: () async => model.searchPlaces(context),
         child: Container(
           width: double.infinity,
           padding: EdgeInsets.all(model.padding),
