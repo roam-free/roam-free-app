@@ -3,16 +3,19 @@ import 'package:roam_free/ui/widgets/location_box/location_box_view_model.dart';
 import 'package:stacked/stacked.dart';
 
 class LocationBoxView extends StatelessWidget {
-  GlobalKey<ScaffoldState> drawerKey;
+  final GlobalKey<ScaffoldState> homeKey;
+  final Function updateDistance;
 
-  LocationBoxView(this.drawerKey);
+  LocationBoxView(this.updateDistance, this.homeKey);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LocationBoxViewModel>.reactive(
-      onModelReady: (model) => model.initialise(),
+      onModelReady: (model) => model.initialise(updateDistance),
       builder: (context, model, child) => FlatButton(
-        onPressed: () async => model.searchPlaces(context),
+        onPressed: () async {
+          model.searchPlaces(context);
+        },
         child: Container(
           width: double.infinity,
           padding: EdgeInsets.all(model.padding),
@@ -45,7 +48,7 @@ class LocationBoxView extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.filter_alt_rounded),
-                onPressed: () => model.openFilterDrawer(drawerKey),
+                onPressed: () => model.openFilterDrawer(homeKey),
               )
             ],
           ),

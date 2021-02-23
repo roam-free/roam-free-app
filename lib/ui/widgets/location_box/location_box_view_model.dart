@@ -4,29 +4,33 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:roam_free/app/locator.dart';
-import 'package:roam_free/app/router.gr.dart';
 import 'package:roam_free/services/google_maps_service.dart';
 import 'package:roam_free/services/location_service.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class LocationBoxViewModel extends BaseViewModel {
   final LocationService _locationService = locator<LocationService>();
-  final NavigationService _navigationService = locator<NavigationService>();
   final GoogleMapsService _googleMapsService = locator<GoogleMapsService>();
   Prediction prediction;
   String locationText = '';
   final double padding = 5;
+  Function callback;
 
-  Future initialise() async {
+  Future initialise(updateDistance) async {
     print('location: start searching');
     locationText = await getLocationFromCurrentPosition();
     notifyListeners();
     print('location: $locationText');
+    callback = updateDistance;
   }
 
-  openFilterDrawer(GlobalKey<ScaffoldState> drawerKey) {
-    drawerKey.currentState.openDrawer();
+  openFilterDrawer(GlobalKey<ScaffoldState> homeKey) {
+    homeKey.currentState.openDrawer();
+  }
+
+  refreshHome() {
+    print('####: refresh');
+    callback();
   }
 
   Future<String> getLocationFromCurrentPosition() async {
@@ -46,6 +50,7 @@ class LocationBoxViewModel extends BaseViewModel {
         Position(latitude: position.latitude, longitude: position.longitude);
     _locationService.setPositionManual(convPosition);
     locationText = await getLocationFromCurrentPosition();
+    refreshHome();
     notifyListeners();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:roam_free/models/host.dart';
-import 'package:roam_free/ui/widgets/nav_bar/nav_bar_view.dart';
 import 'package:roam_free/ui/widgets/icon_text_button.dart';
 import 'package:stacked/stacked.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

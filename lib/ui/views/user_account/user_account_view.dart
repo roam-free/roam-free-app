@@ -52,7 +52,6 @@ class UserAccountView extends StatelessWidget {
             },
           ),
         ),
-        bottomNavigationBar: NavBarView(),
       ),
     );
   }

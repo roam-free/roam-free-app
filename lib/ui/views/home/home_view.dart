@@ -15,12 +15,12 @@ class HomeView extends StatelessWidget {
     return ViewModelBuilder<HomeViewModel>.reactive(
       onModelReady: (model) => model.initialise(),
       builder: (context, model, child) => Scaffold(
-        key: model.drawerKey,
+        key: model.homeKey,
         appBar: AppBar(title: Text('Roam Free')),
         drawer: MenuView(),
         body: Column(
           children: [
-            LocationBoxView(model.drawerKey),
+            LocationBoxView(model.updateDistancesCallback, model.homeKey),
             Expanded(
               child: StreamBuilder<List<Host>>(
                 stream: model.hostsStream,
@@ -42,23 +42,27 @@ class HomeView extends StatelessWidget {
                               bottom: 10,
                             ),
                             children: snapshot.data.map((Host host) {
-                              host.calculateDistance(model.getUserPosition());
+                              model.setHost(host);
+                              model.host.calculateDistance(
+                                model.getUserPosition(),
+                              );
                               return HostCard(
-                                title: host.name,
-                                subtitle: host.location,
+                                title: model.host.name,
+                                subtitle: model.host.location,
                                 image: CachedNetworkImage(
-                                  imageUrl: host.images[0],
+                                  imageUrl: model.host.images[0],
                                   fit: BoxFit.fill,
                                   height: 350,
                                 ),
                                 bottomLine:
-                                    '${host.distance.toStringAsFixed(2)} km',
+                                    '${model.host.distance.toStringAsFixed(2)} km',
                                 onPressed: () {
-                                  print('${host.name} tapped.');
+                                  print('${model.host.name} tapped.');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HostView(host)),
+                                        builder: (context) =>
+                                            HostView(model.host)),
                                   );
                                 },
                               );
