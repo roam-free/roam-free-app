@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
         drawer: MenuView(),
         body: Column(
           children: [
-            LocationBoxView(model.updateDistancesCallback, model.homeKey),
+            LocationBoxView(model.homeKey),
             Expanded(
               child: StreamBuilder<List<Host>>(
                 stream: model.hostsStream,
@@ -46,7 +46,7 @@ class HomeView extends StatelessWidget {
                               model.host.calculateDistance(
                                 model.getUserPosition(),
                               );
-                              if (host.distance <= 5) {
+                              if (host.distance <= model.getDistanceFilter()) {
                                 return HostCard(
                                   title: model.host.name,
                                   subtitle: model.host.location,

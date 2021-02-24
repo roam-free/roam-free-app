@@ -6,6 +6,7 @@ import 'package:stacked/stacked.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'host_view_model.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HostView extends StatelessWidget {
   final Host host;

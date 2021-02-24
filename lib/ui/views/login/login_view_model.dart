@@ -20,7 +20,6 @@ class LoginViewModel extends BaseViewModel {
     setBusy(false);
     if (result is bool) {
       if (result) {
-        await _locationService.updatePosition();
         _navigationService.clearStackAndShow(Routes.homeView);
       } else {
         await _dialogService.showDialog(

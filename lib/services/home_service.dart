@@ -1,7 +1,9 @@
 import 'package:roam_free/models/filter.dart';
 
-class FilterService {
+class HomeService {
   List<Filter> filters = [
     Filter('Distance'),
   ];
+
+  Function refreshHome;
 }
