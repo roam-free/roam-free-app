@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:roam_free/ui/widgets/location_box/location_box_view_model.dart';
+import 'package:roam_free/ui/views/location_box/location_box_view_model.dart';
 import 'package:stacked/stacked.dart';
 
 class LocationBoxView extends StatelessWidget {

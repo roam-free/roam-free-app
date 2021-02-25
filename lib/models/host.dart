@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Host {
   Host(this.name, this.location, this.description, this.id, this.position,
-      this.images, this.phone, this.email);
+      this.images, this.phone, this.email, this.services);
 
   final String name;
   final String location;
@@ -14,6 +14,7 @@ class Host {
   final List images;
   final String phone;
   final String email;
+  final Map services;
   double distance;
 
   Position getPosition() {
