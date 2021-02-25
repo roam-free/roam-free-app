@@ -26,7 +26,6 @@ class HostView extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 300,
-                decoration: BoxDecoration(),
                 child: CarouselSlider(
                   options: CarouselOptions(
                     height: 400,
