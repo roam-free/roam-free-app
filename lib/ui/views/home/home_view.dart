@@ -42,23 +42,23 @@ class HomeView extends StatelessWidget {
                               bottom: 10,
                             ),
                             children: snapshot.data.map((Host host) {
-                              model.setHost(host);
-                              model.host.calculateDistance(
+                              host.calculateDistance(
                                 model.getUserPosition(),
                               );
-                              if (host.distance <= model.getDistanceFilter()) {
+                              if (model.checkDistance(host) &
+                                  model.checkServices(host)) {
                                 return HostCard(
-                                  title: model.host.name,
-                                  subtitle: model.host.location,
+                                  title: host.name,
+                                  subtitle: host.location,
                                   image: CachedNetworkImage(
-                                    imageUrl: model.host.images[0],
+                                    imageUrl: host.images[0],
                                     fit: BoxFit.fill,
                                     height: 350,
                                   ),
                                   bottomLine:
-                                      '${model.host.distance.toStringAsFixed(2)} km',
+                                      '${host.distance.toStringAsFixed(2)} km',
                                   onPressed: () {
-                                    print('${model.host.name} tapped.');
+                                    print('${host.name} tapped.');
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

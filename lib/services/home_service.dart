@@ -1,49 +1,82 @@
 import 'package:flutter/material.dart';
-
-import 'package:roam_free/models/filter.dart';
+import 'package:roam_free/enums/filters_type.dart';
 
 class HomeService {
-  List<Filter> filters = [
-    Filter('Distance'),
-  ];
-
-  Function refreshHome;
-
-  Map<String, IconData> setupServiceIcons() {
-    Map<String, IconData> serviceIcons = Map();
-
-    serviceIcons['dogsAllowed'] = Icons.pets;
-    serviceIcons['electricity'] = Icons.electrical_services;
-    serviceIcons['freshWater'] = Icons.liquor;
-    serviceIcons['greyWater'] = Icons.liquor;
-    serviceIcons['largeVehicles'] = Icons.car_rental;
-    serviceIcons['litterBins'] = Icons.restore_from_trash;
-    serviceIcons['toiletWaste'] = Icons.wc;
-    serviceIcons['wifi'] = Icons.wifi;
-
-    return serviceIcons;
-  }
-
-  String readableLabel(String key) {
-    switch (key) {
-      case 'dogsAllowed':
-        return 'Dogs Allowed';
-      case 'electricity':
-        return 'Electricity';
-      case 'freshWater':
-        return 'Fresh Water';
-      case 'greyWater':
-        return 'Grey Water';
-      case 'largeVehicles':
-        return 'Large Vehicles';
-      case 'litterBins':
-        return 'Litter Bins';
-      case 'toiletWaste':
-        return 'Toilet Waste';
-      case 'wifi':
-        return 'WiFi';
+  //----------------------------------------------------------------------------
+  // Filters
+  //----------------------------------------------------------------------------
+  Map getFilters(ref) {
+    switch (ref) {
+      case FiltersType.services:
+        return _serviceFilters;
+      case FiltersType.distances:
+        return _distanceFilters;
       default:
-        return key;
+        throw Error();
     }
   }
+
+  void setFilters(FiltersType ref, Map filters) {
+    switch (ref) {
+      case FiltersType.services:
+        _serviceFilters = filters;
+        break;
+      default:
+        throw Error();
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  // Distance Filters
+  //----------------------------------------------------------------------------
+  Map<String, double> get distanceFilters => _distanceFilters;
+  set distanceFilters(filters) => _distanceFilters;
+  Map<String, double> _distanceFilters = {
+    "distance": 100,
+  };
+
+  //----------------------------------------------------------------------------
+  // Service Filters
+  //----------------------------------------------------------------------------
+  Map<String, bool> get serviceFilters => _serviceFilters;
+  set serviceFilters(filters) => _serviceFilters = filters;
+  Map<String, bool> _serviceFilters = {
+    "dogsAllowed": false,
+    "electricity": false,
+    "freshWater": false,
+    "greyWater": false,
+    "largeVehicles": false,
+    "litterBins": false,
+    "toiletWaste": false,
+    "wifi": false
+  };
+
+  Map<String, IconData> get serviceIcons => _serviceIcons;
+  Map<String, IconData> _serviceIcons = {
+    "dogsAllowed": Icons.pets,
+    "electricity": Icons.electrical_services,
+    "freshWater": Icons.liquor,
+    "greyWater": Icons.liquor,
+    "largeVehicles": Icons.car_rental,
+    "litterBins": Icons.restore_from_trash,
+    "toiletWaste": Icons.wc,
+    "wifi": Icons.wifi,
+  };
+
+  Map<String, String> get serviceReadableNames => _servicereadableNames;
+  Map<String, String> _servicereadableNames = {
+    "dogsAllowed": 'Dogs Allowed',
+    "electricity": 'Electricity',
+    "freshWater": 'Fresh Water',
+    "greyWater": 'Grey Water',
+    "largeVehicles": 'Large Vehicles',
+    "litterBins": 'Litter Bins',
+    "toiletWaste": 'Toilet Waste',
+    "wifi": 'WiFi'
+  };
+
+  //----------------------------------------------------------------------------
+  // Callbacks
+  //----------------------------------------------------------------------------
+  Function refreshHome;
 }

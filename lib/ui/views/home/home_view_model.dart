@@ -12,15 +12,10 @@ class HomeViewModel extends BaseViewModel {
   final FirestoreService _firestoreService = locator<FirestoreService>();
   final LocationService _locationService = locator<LocationService>();
   final HomeService _homeService = locator<HomeService>();
-  Host host;
   var hostsStream;
 
   Position getUserPosition() {
     return _locationService.currentPostion;
-  }
-
-  void setHost(hostToSet) {
-    host = hostToSet;
   }
 
   void updateHomeCallback() {
@@ -34,6 +29,24 @@ class HomeViewModel extends BaseViewModel {
   }
 
   double getDistanceFilter() {
-    return _homeService.filters[0].value;
+    return _homeService.distanceFilters['distance'];
+  }
+
+  bool checkDistance(host) {
+    return host.distance <= getDistanceFilter();
+  }
+
+  bool checkServices(host) {
+    bool result = true;
+    var hostServices = host.services;
+    var homeServices = _homeService.serviceFilters;
+    homeServices.forEach((key, value) {
+      if (value) {
+        print("host service:$key: ${hostServices[key]}");
+        if (!hostServices[key]) result = false;
+      }
+    });
+    print("host service:result: ${result}");
+    return result;
   }
 }

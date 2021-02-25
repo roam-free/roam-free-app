@@ -42,10 +42,7 @@ class HostView extends StatelessWidget {
                         return Container(
                           width: MediaQuery.of(context).size.width,
                           child: CachedNetworkImage(
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              imageUrl: i,
-                              fit: BoxFit.cover),
+                              imageUrl: i, fit: BoxFit.cover),
                         );
                       },
                     );
