@@ -3,11 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'app/router.gr.dart' as Router;
+import 'package:roam_free/ui/setup_bottom_sheet_ui.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocator();
+  setupBottomSheetUi();
   runApp(MyApp());
 }
 

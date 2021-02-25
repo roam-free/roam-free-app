@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roam_free/ui/views/user_account/user_account_view_model.dart';
 import 'package:stacked/stacked.dart';
-import 'package:roam_free/ui/widgets/nav_bar/nav_bar_view.dart';
 
 class UserAccountView extends StatelessWidget {
   @override

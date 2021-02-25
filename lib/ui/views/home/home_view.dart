@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:roam_free/models/host.dart';
 import 'package:roam_free/ui/views/host/host_view.dart';
-import 'package:roam_free/ui/widgets/location_box/location_box_view.dart';
-import 'package:roam_free/ui/widgets/menu/menu_view.dart';
+import 'package:roam_free/ui/views/location_box/location_box_view.dart';
+import 'package:roam_free/ui/views/menu/menu_view.dart';
 import 'package:roam_free/ui/widgets/host_card.dart';
 import 'package:stacked/stacked.dart';
 import 'package:roam_free/ui/views/home/home_view_model.dart';
-import 'package:roam_free/ui/widgets/nav_bar/nav_bar_view.dart';
+import 'package:roam_free/ui/views/nav_bar/nav_bar_view.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
         drawer: MenuView(),
         body: Column(
           children: [
-            LocationBoxView(model.updateDistancesCallback, model.homeKey),
+            LocationBoxView(model.homeKey),
             Expanded(
               child: StreamBuilder<List<Host>>(
                 stream: model.hostsStream,
@@ -46,26 +46,29 @@ class HomeView extends StatelessWidget {
                               model.host.calculateDistance(
                                 model.getUserPosition(),
                               );
-                              return HostCard(
-                                title: model.host.name,
-                                subtitle: model.host.location,
-                                image: CachedNetworkImage(
-                                  imageUrl: model.host.images[0],
-                                  fit: BoxFit.fill,
-                                  height: 350,
-                                ),
-                                bottomLine:
-                                    '${model.host.distance.toStringAsFixed(2)} km',
-                                onPressed: () {
-                                  print('${model.host.name} tapped.');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            HostView(model.host)),
-                                  );
-                                },
-                              );
+                              if (host.distance <= model.getDistanceFilter()) {
+                                return HostCard(
+                                  title: model.host.name,
+                                  subtitle: model.host.location,
+                                  image: CachedNetworkImage(
+                                    imageUrl: model.host.images[0],
+                                    fit: BoxFit.fill,
+                                    height: 350,
+                                  ),
+                                  bottomLine:
+                                      '${model.host.distance.toStringAsFixed(2)} km',
+                                  onPressed: () {
+                                    print('${model.host.name} tapped.');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HostView(host)),
+                                    );
+                                  },
+                                );
+                              } else {
+                                return Container();
+                              }
                             }).toList());
                       } else {
                         //TODO Better no data message

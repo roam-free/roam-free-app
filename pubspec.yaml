@@ -47,6 +47,10 @@ dependencies:
   maps_launcher:
   flutter_google_places:
   google_maps_webservice:
+  flutter_spinbox:
+  geoflutterfire:
+  carousel_slider:
+  smart_select:
 
   
 

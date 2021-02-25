@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:roam_free/ui/widgets/menu/menu_view_model.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:roam_free/ui/views/menu/menu_view_model.dart';
 import 'package:stacked/stacked.dart';
 
 class MenuView extends StatelessWidget {
@@ -35,12 +36,6 @@ class MenuView extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            ListTile(
-                title: Text('Home'),
-                onTap: () {
-                  if (ModalRoute.of(context).settings.name != '/home-view')
-                    model.navigateToHome();
-                }),
           ],
         ),
       ),
