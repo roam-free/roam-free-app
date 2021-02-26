@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:roam_free/enums/bottom_sheet_type.dart';
-import 'package:roam_free/enums/filters_type.dart';
+
+import 'package:roam_free/models/filter_group.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/home_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -9,17 +11,19 @@ import 'package:stacked_services/stacked_services.dart';
 class FilterBoxViewModel extends BaseViewModel {
   BottomSheetService _bottomSheetService = locator<BottomSheetService>();
   HomeService _homeService = locator<HomeService>();
+  FilterService _filterService = locator<FilterService>();
 
   String title;
   String subtitle = 'Nothing Selected';
   ImageProvider image;
   FiltersType filtersRef;
 
-  initialise(incomingTitle, incomingImage, incomingFiltersRef) {
-    title = incomingTitle;
-    image = incomingImage;
+  initialise(incomingFiltersRef) {
+    FilterGroup filterGroup = _filterService.getFilterGroup(incomingFiltersRef);
+    title = filterGroup.name;
+    image = filterGroup.image;
     filtersRef = incomingFiltersRef;
-    updateSelectedInit();
+    _updateSelectedInit(filtersRef);
   }
 
   void onPressed() {
@@ -32,19 +36,17 @@ class FilterBoxViewModel extends BaseViewModel {
 
   void onLongPressed() {}
 
-  void updateSelected() {
-    updateSelectedInit();
+  void updateSelected(id) {
+    _updateSelectedInit(id);
     _homeService.refreshHome();
   }
 
-  void updateSelectedInit() {
-    var filters = _homeService.serviceFilters;
+  void _updateSelectedInit(id) {
+    FilterGroup filterGroup = _filterService.getFilterGroup(id);
     String newSubtitle = '';
-    filters.forEach(
-      (key, value) {
-        if (value)
-          newSubtitle =
-              newSubtitle + '${_homeService.serviceReadableNames[key]}, ';
+    filterGroup.filters.forEach(
+      (id, filter) {
+        if (filter.currentValue) newSubtitle = newSubtitle + '${filter.name}, ';
       },
     );
     subtitle = newSubtitle;

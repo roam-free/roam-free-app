@@ -1,6 +1,7 @@
 import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:roam_free/app/router.gr.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/location_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -13,6 +14,7 @@ class StartupViewModel extends BaseViewModel {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
   final LocationService _locationService = locator<LocationService>();
+  final FilterService _filterService = locator<FilterService>();
 
   Future handleStartUpLogic() async {
     var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
@@ -20,6 +22,7 @@ class StartupViewModel extends BaseViewModel {
       await _authenticationService.updateCurrentUser();
       _locationService.requestPermission();
       await _locationService.updatePosition();
+      _filterService.setupFilters();
       _logger.d("Navigating HomeView");
       _navigationService.clearStackAndShow(Routes.homeView);
     } else {

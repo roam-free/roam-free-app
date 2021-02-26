@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/ui/views/filter_spin/filters_spin_view.dart';
-import 'package:roam_free/enums/filters_type.dart';
 import 'package:roam_free/ui/views/filter_box/filter_box_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:roam_free/ui/views/filters/filters_view_model.dart';
@@ -32,12 +32,11 @@ class FiltersView extends StatelessWidget {
           children: [
             SizedBox(height: 10),
             FilterSpinView(
-              title: 'Distance \(km\)',
+              filterId: 'distance',
               filtersRef: FiltersType.distances,
             ),
             const Divider(),
             FilterBoxView(
-              title: 'Services',
               filtersRef: FiltersType.services,
             ),
             const Divider(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/home_service.dart';
 import 'package:roam_free/services/firestore_service.dart';
 import 'package:roam_free/services/location_service.dart';
@@ -13,6 +14,7 @@ class HomeViewModel extends BaseViewModel {
   final FirestoreService _firestoreService = locator<FirestoreService>();
   final LocationService _locationService = locator<LocationService>();
   final HomeService _homeService = locator<HomeService>();
+  final FilterService _filterService = locator<FilterService>();
   var hostsStream;
 
   Position getUserPosition() {
@@ -30,23 +32,26 @@ class HomeViewModel extends BaseViewModel {
     hostsStream = _firestoreService.hostStream();
   }
 
-  double getDistanceFilter() {
-    return _homeService.distanceFilters['distance'];
-  }
-
   bool checkDistance(host) {
-    return host.distance <= getDistanceFilter();
+    double distance = _filterService
+        .getFilterGroup(FiltersType.distances)
+        .filters['distance']
+        .currentValue
+        .toDouble();
+    return host.distance <= distance;
   }
 
   bool checkServices(host) {
     bool result = true;
     var hostServices = host.services;
-    var homeServices = _homeService.serviceFilters;
-    homeServices.forEach((key, value) {
-      if (value) {
-        if (!hostServices[key]) result = false;
+    var filterServices =
+        _filterService.getFilterGroup(FiltersType.services).filters;
+    filterServices.forEach((id, filter) {
+      if (filter.currentValue) {
+        if (!hostServices[id]) result = false;
       }
     });
+
     return result;
   }
 }

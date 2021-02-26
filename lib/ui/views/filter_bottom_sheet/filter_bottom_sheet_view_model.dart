@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
-import 'package:roam_free/enums/filters_type.dart';
+import 'package:roam_free/models/filter_group.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/home_service.dart';
 import 'package:stacked/stacked.dart';
 
 class FilterBottomSheetViewModel extends BaseViewModel {
+  final Logger _logger = Logger();
   final HomeService _homeService = locator<HomeService>();
+  final FilterService _filterService = locator<FilterService>();
 
   FiltersType _filtersRef;
   Function _updateSelectedCallback;
-  Map filters;
+  FilterGroup filterGroup;
 
   void initialise(customData) {
     _filtersRef = customData['ref'];
@@ -21,22 +25,23 @@ class FilterBottomSheetViewModel extends BaseViewModel {
   }
 
   Widget generateFilters(context) {
-    filters = _homeService.getFilters(_filtersRef);
+    filterGroup = _filterService.getFilterGroup(_filtersRef);
 
     Widget listView = ListView.builder(
         shrinkWrap: true,
-        itemCount: filters.length,
+        itemCount: filterGroup.filters.length,
         itemBuilder: (context, index) {
-          String key = filters.keys.elementAt(index);
+          String key = filterGroup.filters.keys.elementAt(index);
+
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _homeService.serviceReadableNames[key],
+                filterGroup.filters[key].name,
                 style: TextStyle(fontSize: 20),
               ),
               Checkbox(
-                value: filters[key],
+                value: filterGroup.filters[key].currentValue,
                 onChanged: (value) => onCheckboxChanged(key, value),
               ),
             ],
@@ -47,9 +52,11 @@ class FilterBottomSheetViewModel extends BaseViewModel {
   }
 
   onCheckboxChanged(key, value) {
-    filters[key] = value;
-    _homeService.setFilters(_filtersRef, filters);
-    _updateSelectedCallback();
+    _logger.d("Key: $key Value: $value");
+    filterGroup.filters[key].currentValue = value;
+    _logger.d("Does it get here?");
+    _filterService.setFilterGroup(filterGroup);
+    _updateSelectedCallback(_filtersRef);
     notifyListeners();
   }
 }

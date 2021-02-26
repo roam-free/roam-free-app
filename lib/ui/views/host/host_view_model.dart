@@ -3,17 +3,19 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:roam_free/models/host.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/google_maps_service.dart';
-import 'package:roam_free/services/home_service.dart';
 import 'package:roam_free/ui/widgets/service_icon.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HostViewModel extends BaseViewModel {
+  final Logger _logger = Logger();
   final GoogleMapsService _googleMapsService = locator<GoogleMapsService>();
-  final HomeService _homeService = locator<HomeService>();
+  final FilterService _filterService = locator<FilterService>();
 
   CameraPosition initialCameraPosition;
   Set<Marker> markers = HashSet<Marker>();
@@ -56,8 +58,6 @@ class HostViewModel extends BaseViewModel {
     _markerIdCounter++;
     LatLng convPosition = new LatLng(position.latitude, position.longitude);
 
-    print(
-        'Marker | Latitude: ${position.latitude} Longitude: ${position.longitude}');
     markers.add(
       Marker(
         markerId: MarkerId(markerIdVal),
@@ -68,24 +68,17 @@ class HostViewModel extends BaseViewModel {
     );
   }
 
-  IconData getServiceIcon(String service) {
-    var iconsMap = _homeService.serviceIcons;
-    print("icons: ${iconsMap[service]}");
-    return iconsMap[service];
-  }
-
   List<Widget> generateServices(services) {
     List<Widget> listOfServices = [];
-    var map = _homeService.serviceIcons;
+    var map = _filterService.getFilterGroup(FiltersType.services).filters;
+
     map.forEach(
-      (key, value) {
-        String readableLabel = _homeService.serviceReadableNames[key];
-        bool available = services[key];
+      (id, filter) {
         listOfServices.add(
           ServiceIcon(
-            icon: value,
-            serviceName: readableLabel,
-            available: available,
+            icon: filter.icon,
+            serviceName: filter.name,
+            available: services[id],
           ),
         );
       },
