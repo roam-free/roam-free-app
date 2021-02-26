@@ -55,13 +55,15 @@ class LocationBoxViewModel extends BaseViewModel {
 
   Future<void> searchPlaces(context) async {
     prediction = await _googleMapsService.searchPlaces(context, "en");
-    LatLng position =
-        await _googleMapsService.getLatLngFromPrediction(prediction);
-    Position convPosition =
-        Position(latitude: position.latitude, longitude: position.longitude);
-    _locationService.setPositionManual(convPosition);
-    locationText = await getLocationFromCurrentPosition();
-    refreshHome();
-    notifyListeners();
+    if (prediction != null) {
+      LatLng position =
+          await _googleMapsService.getLatLngFromPrediction(prediction);
+      Position convPosition =
+          Position(latitude: position.latitude, longitude: position.longitude);
+      _locationService.setPositionManual(convPosition);
+      locationText = await getLocationFromCurrentPosition();
+      refreshHome();
+      notifyListeners();
+    }
   }
 }

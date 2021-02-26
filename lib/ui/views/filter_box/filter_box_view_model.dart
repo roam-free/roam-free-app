@@ -19,7 +19,7 @@ class FilterBoxViewModel extends BaseViewModel {
     title = incomingTitle;
     image = incomingImage;
     filtersRef = incomingFiltersRef;
-    updateSelected();
+    updateSelectedInit();
   }
 
   void onPressed() {
@@ -33,6 +33,11 @@ class FilterBoxViewModel extends BaseViewModel {
   void onLongPressed() {}
 
   void updateSelected() {
+    updateSelectedInit();
+    _homeService.refreshHome();
+  }
+
+  void updateSelectedInit() {
     var filters = _homeService.serviceFilters;
     String newSubtitle = '';
     filters.forEach(
@@ -45,6 +50,5 @@ class FilterBoxViewModel extends BaseViewModel {
     subtitle = newSubtitle;
     if (subtitle.isEmpty) subtitle = 'Nothing Selected';
     notifyListeners();
-    _homeService.refreshHome();
   }
 }

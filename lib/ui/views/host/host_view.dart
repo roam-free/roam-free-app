@@ -118,22 +118,22 @@ class HostView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15),
-              SizedBox(
-                height: 400,
-                child: GoogleMap(
-                  initialCameraPosition: model.initialCameraPosition,
-                  onMapCreated: (controller) async {
-                    await model.onMapCreated(controller);
-                  },
-                  markers: model.markers,
-                  mapToolbarEnabled: true,
-                  onTap: (_) {
-                    MapsLauncher.launchCoordinates(
-                        host.position.latitude, host.position.longitude);
-                  },
-                ),
-              ),
-              SizedBox(height: 15),
+              // SizedBox(
+              //   height: 400,
+              //   child: GoogleMap(
+              //     initialCameraPosition: model.initialCameraPosition,
+              //     onMapCreated: (controller) async {
+              //       await model.onMapCreated(controller);
+              //     },
+              //     markers: model.markers,
+              //     mapToolbarEnabled: true,
+              //     onTap: (_) {
+              //       MapsLauncher.launchCoordinates(
+              //           host.position.latitude, host.position.longitude);
+              //     },
+              //   ),
+              // ),
+              // SizedBox(height: 15),
             ],
           ),
         ),

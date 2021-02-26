@@ -51,6 +51,8 @@ dependencies:
   geoflutterfire:
   carousel_slider:
   smart_select:
+  logger:
+  logger_flutter:
 
   
 

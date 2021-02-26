@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
 import 'firestore_service.dart';
 import 'package:roam_free/models/user.dart';
 
 class AuthenticationService {
+  final Logger _logger = Logger();
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
   final FirestoreService _firestoreService = locator<FirestoreService>();
   User _currentUser;
@@ -50,13 +52,18 @@ class AuthenticationService {
   }
 
   Future<bool> isUserLoggedIn() async {
-    final user = await _firebaseAuth.currentUser;
-
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      _logger.i("No user logged in");
+    } else {
+      _logger.i("${user.uid} is signed in");
+    }
     return user != null;
   }
 
   Future signOut() async {
-    _firebaseAuth.signOut();
+    await _firebaseAuth.signOut();
+    _logger.i("User Signed Out");
   }
 
   Future _populateCurrentUser(auth.User user) async {
@@ -68,5 +75,6 @@ class AuthenticationService {
   Future updateCurrentUser() async {
     final auth.User user = _firebaseAuth.currentUser;
     _populateCurrentUser(user);
+    _logger.d("Updating current user on disk");
   }
 }
