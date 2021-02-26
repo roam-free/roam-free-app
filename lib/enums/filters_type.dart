@@ -1,0 +1,4 @@
+enum FiltersType {
+  services,
+  distances,
+}

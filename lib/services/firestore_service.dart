@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:logger/logger.dart';
 import 'package:roam_free/models/host.dart';
 import 'package:roam_free/models/user.dart';
 
 class FirestoreService {
+  final Logger _logger = Logger();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference usersCollectionReference =
       FirebaseFirestore.instance.collection("users");
@@ -49,12 +51,18 @@ class FirestoreService {
     }
   }
 
-  void addUserLocation(String uid, GeoFirePoint location) {
-    locationsCollectionReference.doc(uid).set(
-      {
-        'name': 'user_location',
-        'position': location.data,
-      },
-    );
+  Future<void> addUserLocation(String uid, GeoFirePoint location) async {
+    try {
+      await locationsCollectionReference.doc(uid).set(
+        {
+          'name': 'user_location',
+          'position': location.data,
+        },
+      );
+      _logger.d("$uid location successfully store on firebase");
+    } catch (e) {
+      _logger.d("$uid location storage failed: ${e.message}");
+      return e.message;
+    }
   }
 }

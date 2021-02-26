@@ -51,13 +51,15 @@ class GoogleMapsService {
   }
 
   Future<LatLng> getLatLngFromPrediction(Prediction prediction) async {
-    GoogleMapsPlaces _places = new GoogleMapsPlaces(
-        apiKey:
-            kGoogleApiKey); //Same API_KEY as above    PlacesDetailsResponse detail =
-    PlacesDetailsResponse detail =
-        await _places.getDetailsByPlaceId(prediction.placeId);
-    double latitude = detail.result.geometry.location.lat;
-    double longitude = detail.result.geometry.location.lng;
-    return LatLng(latitude, longitude);
+    GoogleMapsPlaces _places = new GoogleMapsPlaces(apiKey: kGoogleApiKey);
+    if (prediction != null) {
+      PlacesDetailsResponse detail =
+          await _places.getDetailsByPlaceId(prediction.placeId);
+      double latitude = detail.result.geometry.location.lat;
+      double longitude = detail.result.geometry.location.lng;
+      return LatLng(latitude, longitude);
+    } else {
+      return null;
+    }
   }
 }

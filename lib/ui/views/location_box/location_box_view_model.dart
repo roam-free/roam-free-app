@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:roam_free/app/locator.dart';
+import 'package:roam_free/app/router.gr.dart';
 import 'package:roam_free/enums/bottom_sheet_type.dart';
 import 'package:roam_free/services/home_service.dart';
 import 'package:roam_free/services/google_maps_service.dart';
@@ -16,6 +17,7 @@ class LocationBoxViewModel extends BaseViewModel {
   final GoogleMapsService _googleMapsService = locator<GoogleMapsService>();
   final BottomSheetService _bottomSheetService = locator<BottomSheetService>();
   final HomeService _homeService = locator<HomeService>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
   Prediction prediction;
   String locationText = '';
@@ -31,10 +33,11 @@ class LocationBoxViewModel extends BaseViewModel {
   }
 
   Future openFilterBottomSheet() async {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.filters,
-      barrierDismissible: true,
-    );
+    // _bottomSheetService.showCustomSheet(
+    //   variant: BottomSheetType.filters,
+    //   barrierDismissible: true,
+    // );
+    _navigationService.navigateTo(Routes.filtersView);
   }
 
   refreshHome() {
@@ -52,13 +55,15 @@ class LocationBoxViewModel extends BaseViewModel {
 
   Future<void> searchPlaces(context) async {
     prediction = await _googleMapsService.searchPlaces(context, "en");
-    LatLng position =
-        await _googleMapsService.getLatLngFromPrediction(prediction);
-    Position convPosition =
-        Position(latitude: position.latitude, longitude: position.longitude);
-    _locationService.setPositionManual(convPosition);
-    locationText = await getLocationFromCurrentPosition();
-    refreshHome();
-    notifyListeners();
+    if (prediction != null) {
+      LatLng position =
+          await _googleMapsService.getLatLngFromPrediction(prediction);
+      Position convPosition =
+          Position(latitude: position.latitude, longitude: position.longitude);
+      _locationService.setPositionManual(convPosition);
+      locationText = await getLocationFromCurrentPosition();
+      refreshHome();
+      notifyListeners();
+    }
   }
 }

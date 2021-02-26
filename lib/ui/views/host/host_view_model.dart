@@ -69,17 +69,17 @@ class HostViewModel extends BaseViewModel {
   }
 
   IconData getServiceIcon(String service) {
-    var iconsMap = _homeService.setupServiceIcons();
+    var iconsMap = _homeService.serviceIcons;
     print("icons: ${iconsMap[service]}");
     return iconsMap[service];
   }
 
   List<Widget> generateServices(services) {
     List<Widget> listOfServices = [];
-    var map = _homeService.setupServiceIcons();
+    var map = _homeService.serviceIcons;
     map.forEach(
       (key, value) {
-        String readableLabel = _homeService.readableLabel(key);
+        String readableLabel = _homeService.serviceReadableNames[key];
         bool available = services[key];
         listOfServices.add(
           ServiceIcon(

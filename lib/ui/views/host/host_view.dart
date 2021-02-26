@@ -42,10 +42,7 @@ class HostView extends StatelessWidget {
                         return Container(
                           width: MediaQuery.of(context).size.width,
                           child: CachedNetworkImage(
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              imageUrl: i,
-                              fit: BoxFit.cover),
+                              imageUrl: i, fit: BoxFit.cover),
                         );
                       },
                     );
@@ -121,22 +118,22 @@ class HostView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15),
-              SizedBox(
-                height: 400,
-                child: GoogleMap(
-                  initialCameraPosition: model.initialCameraPosition,
-                  onMapCreated: (controller) async {
-                    await model.onMapCreated(controller);
-                  },
-                  markers: model.markers,
-                  mapToolbarEnabled: true,
-                  onTap: (_) {
-                    MapsLauncher.launchCoordinates(
-                        host.position.latitude, host.position.longitude);
-                  },
-                ),
-              ),
-              SizedBox(height: 15),
+              // SizedBox(
+              //   height: 400,
+              //   child: GoogleMap(
+              //     initialCameraPosition: model.initialCameraPosition,
+              //     onMapCreated: (controller) async {
+              //       await model.onMapCreated(controller);
+              //     },
+              //     markers: model.markers,
+              //     mapToolbarEnabled: true,
+              //     onTap: (_) {
+              //       MapsLauncher.launchCoordinates(
+              //           host.position.latitude, host.position.longitude);
+              //     },
+              //   ),
+              // ),
+              // SizedBox(height: 15),
             ],
           ),
         ),
