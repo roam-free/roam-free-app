@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
+import 'package:roam_free/models/host.dart';
 import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/home_service.dart';
 import 'package:roam_free/services/firestore_service.dart';
@@ -32,6 +33,10 @@ class HomeViewModel extends BaseViewModel {
     hostsStream = _firestoreService.hostStream();
   }
 
+  bool checkFilters(host) {
+    return (checkDistance(host) & checkServices(host) & checkActivities(host));
+  }
+
   bool checkDistance(host) {
     double distance = _filterService
         .getFilterGroup(FiltersType.distances)
@@ -49,6 +54,20 @@ class HomeViewModel extends BaseViewModel {
     filterServices.forEach((id, filter) {
       if (filter.currentValue) {
         if (!hostServices[id]) result = false;
+      }
+    });
+
+    return result;
+  }
+
+  bool checkActivities(host) {
+    bool result = true;
+    var hostActivities = host.activities;
+    var filterActivities =
+        _filterService.getFilterGroup(FiltersType.activities).filters;
+    filterActivities.forEach((id, filter) {
+      if (filter.currentValue) {
+        if (!hostActivities[id]) result = false;
       }
     });
 

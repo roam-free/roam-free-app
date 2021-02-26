@@ -28,6 +28,7 @@ class FirestoreService {
               document['phone'],
               document['email'],
               document['services'],
+              document['activities'],
             ),
           )
           .toList();

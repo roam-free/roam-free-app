@@ -40,6 +40,10 @@ class FiltersView extends StatelessWidget {
               filtersRef: FiltersType.services,
             ),
             const Divider(),
+            FilterBoxView(
+              filtersRef: FiltersType.activities,
+            ),
+            const Divider(),
           ],
         ),
       ),

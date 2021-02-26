@@ -45,8 +45,7 @@ class HomeView extends StatelessWidget {
                               host.calculateDistance(
                                 model.getUserPosition(),
                               );
-                              if (model.checkDistance(host) &
-                                  model.checkServices(host)) {
+                              if (model.checkFilters(host)) {
                                 return HostCard(
                                   title: host.name,
                                   subtitle: host.location,

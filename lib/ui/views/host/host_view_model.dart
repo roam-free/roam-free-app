@@ -68,22 +68,22 @@ class HostViewModel extends BaseViewModel {
     );
   }
 
-  List<Widget> generateServices(services) {
-    List<Widget> listOfServices = [];
-    var map = _filterService.getFilterGroup(FiltersType.services).filters;
+  List<Widget> generateFiltersGrid(filters, filterType) {
+    List<Widget> listOfFilters = [];
+    var map = _filterService.getFilterGroup(filterType).filters;
 
     map.forEach(
       (id, filter) {
-        listOfServices.add(
+        listOfFilters.add(
           ServiceIcon(
             icon: filter.icon,
             serviceName: filter.name,
-            available: services[id],
+            available: filters[id],
           ),
         );
       },
     );
-    return listOfServices;
+    return listOfFilters;
   }
 
   void changeIndicator(index) {
