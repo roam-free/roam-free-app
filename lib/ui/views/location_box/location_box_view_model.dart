@@ -64,7 +64,7 @@ class LocationBoxViewModel extends BaseViewModel {
       Position convPosition =
           Position(latitude: position.latitude, longitude: position.longitude);
       _locationService.setPositionManual(convPosition);
-      locationText = await getLocationFromCurrentPosition();
+      locationText = prediction.description;
       refreshHome();
       notifyListeners();
     }

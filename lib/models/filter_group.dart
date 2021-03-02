@@ -27,4 +27,12 @@ class FilterGroup {
     });
     return str;
   }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = Map();
+    _filters.forEach((key, value) {
+      map[key] = value.currentValue;
+    });
+    return map;
+  }
 }

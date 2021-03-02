@@ -40,4 +40,19 @@ class Host {
             hostPosition.longitude) /
         1000;
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'location': location,
+      'description': description,
+      'id': id,
+      'position': position,
+      'images': images,
+      'phone': phone,
+      'email': email,
+      'services': services,
+      'activities': activities,
+    };
+  }
 }

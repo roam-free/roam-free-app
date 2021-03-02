@@ -20,7 +20,7 @@ class NewHostView extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20),
-          child: Column(
+          child: ListView(
             children: [
               InputField(
                 placeholder: 'Name',

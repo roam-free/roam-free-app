@@ -1,18 +1,23 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:logger/logger.dart';
 import 'package:roam_free/models/host.dart';
 import 'package:roam_free/models/user.dart';
+import 'package:path/path.dart';
 
 class FirestoreService {
   final Logger _logger = Logger();
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference usersCollectionReference =
       FirebaseFirestore.instance.collection("users");
   final CollectionReference hostsCollectionReference =
       FirebaseFirestore.instance.collection("hosts");
   final CollectionReference locationsCollectionReference =
       FirebaseFirestore.instance.collection("locations");
+  final CollectionReference pendingHostsCollectionReference =
+      FirebaseFirestore.instance.collection("pendingHosts");
 
   Stream<List<Host>> hostStream() {
     return hostsCollectionReference.snapshots().map((snapshot) {
@@ -65,5 +70,28 @@ class FirestoreService {
       _logger.d("$uid location storage failed: ${e.message}");
       return e.message;
     }
+  }
+
+  Future<void> createNewHost(Host host) async {
+    _logger.i("Pushong new host to server");
+    await pendingHostsCollectionReference.doc().set(
+          host.toJson(),
+        );
+  }
+
+  Future<List<Reference>> uploadImages(List<File> files) async {
+    List<Reference> refs = [];
+    files.forEach(
+      (file) async {
+        String fileName = basename(file.path);
+        Reference firebaseStorageRef =
+            FirebaseStorage.instance.ref().child('hostImages/$fileName');
+        UploadTask uploadTask = firebaseStorageRef.putFile(file);
+        TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+        _logger.d("Storage ref: $firebaseStorageRef");
+        refs.add(firebaseStorageRef);
+      },
+    );
+    return refs;
   }
 }

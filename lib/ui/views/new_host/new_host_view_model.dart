@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:roam_free/enums/bottom_sheet_type.dart';
 import 'package:roam_free/models/filter_group.dart';
+import 'package:roam_free/models/host.dart';
 import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/google_maps_service.dart';
 import 'package:roam_free/ui/widgets/add_image_button.dart';
@@ -108,6 +111,9 @@ class NewHostViewModel extends BaseViewModel {
       mode: Mode.fullscreen,
     );
     locationController.text = prediction?.description;
+    if (prediction != null) {
+      location = await _googleMapsService.getLatLngFromPrediction(prediction);
+    }
     notifyListeners();
   }
 
@@ -141,12 +147,32 @@ class NewHostViewModel extends BaseViewModel {
         servicesGroup = filterGroup;
         servicesController.text = servicesGroup.getNamesByEnabled();
         break;
+      case FiltersType.activities:
+        activitiesGroup = filterGroup;
+        activitiesController.text = activitiesGroup.getNamesByEnabled();
+        break;
       default:
         break;
     }
   }
 
   Future<void> save() async {
-    _firestoreService;
+    List<Reference> imageRefs;
+
+    imageRefs = await _firestoreService.uploadImages(images);
+
+    Host host = Host(
+      nameController.text,
+      locationController.text,
+      descriptionController.text,
+      '',
+      GeoPoint(location.latitude, location.longitude),
+      imageRefs,
+      phoneController.text,
+      emailController.text,
+      servicesGroup.toMap(),
+      activitiesGroup.toMap(),
+    );
+    _firestoreService.createNewHost(host);
   }
 }
