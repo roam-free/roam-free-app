@@ -79,19 +79,14 @@ class FirestoreService {
         );
   }
 
-  Future<List<Reference>> uploadImages(List<File> files) async {
-    List<Reference> refs = [];
-    files.forEach(
-      (file) async {
-        String fileName = basename(file.path);
-        Reference firebaseStorageRef =
-            FirebaseStorage.instance.ref().child('hostImages/$fileName');
-        UploadTask uploadTask = firebaseStorageRef.putFile(file);
-        TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-        _logger.d("Storage ref: $firebaseStorageRef");
-        refs.add(firebaseStorageRef);
-      },
-    );
-    return refs;
+  Future<String> uploadImage(File file) async {
+    String fileName = basename(file.path);
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('hostImages/$fileName');
+    await firebaseStorageRef.putFile(file);
+
+    //_logger.d("Storage ref: $firebaseStorageRef");
+
+    return firebaseStorageRef.getDownloadURL();
   }
 }

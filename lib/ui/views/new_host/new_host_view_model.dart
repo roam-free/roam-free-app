@@ -1,9 +1,6 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:roam_free/enums/bottom_sheet_type.dart';
@@ -39,6 +36,7 @@ class NewHostViewModel extends BaseViewModel {
   FilterGroup servicesGroup;
   FilterGroup activitiesGroup;
   List<File> images = [];
+  List<String> imageRefs = [];
   int imageCount = 0;
 
   void initialise() {
@@ -157,10 +155,22 @@ class NewHostViewModel extends BaseViewModel {
   }
 
   Future<void> save() async {
-    List<Reference> imageRefs;
+    setBusy(true);
+    await Future.forEach(
+      images,
+      (File image) async {
+        String ref = await _firestoreService.uploadImage(image);
+        imageRefs.add(ref);
+      },
+    );
 
-    imageRefs = await _firestoreService.uploadImages(images);
+    sendToFirebase();
 
+    setBusy(false);
+    imageRefs = [];
+  }
+
+  void sendToFirebase() async {
     Host host = Host(
       nameController.text,
       locationController.text,
@@ -173,6 +183,6 @@ class NewHostViewModel extends BaseViewModel {
       servicesGroup.toMap(),
       activitiesGroup.toMap(),
     );
-    _firestoreService.createNewHost(host);
+    await _firestoreService.createNewHost(host);
   }
 }

@@ -6,6 +6,7 @@ import 'package:roam_free/ui/widgets/input_field_multiline.dart';
 import 'package:roam_free/ui/widgets/select_box.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
+import 'package:roam_free/ui/widgets/busy_button.dart';
 
 class NewHostView extends StatelessWidget {
   final Logger _logger = Logger();
@@ -62,10 +63,11 @@ class NewHostView extends StatelessWidget {
               ),
               ButtonBar(
                 children: [
-                  RaisedButton(
-                      onPressed: () => model.save(),
-                      child: Text('SAVE'),
-                      color: Colors.greenAccent[400]),
+                  BusyButton(
+                    busy: model.isBusy,
+                    onPressed: () => model.save(),
+                    title: 'SAVE',
+                  ),
                 ],
               ),
             ],
