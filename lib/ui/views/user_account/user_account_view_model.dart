@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
+import 'package:roam_free/enums/roles.dart';
 import 'package:roam_free/services/authentication_service.dart';
 import 'package:roam_free/services/location_service.dart';
 import 'package:stacked/stacked.dart';
@@ -8,12 +11,15 @@ import 'package:roam_free/app/router.gr.dart';
 import 'package:roam_free/models/user.dart';
 
 class UserAccountViewModel extends BaseViewModel {
-  User user;
-  final title = 'Account';
+  final Logger _logger = Logger();
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
   final LocationService _locationService = locator<LocationService>();
   final NavigationService _navigationService = locator<NavigationService>();
+
+  User user;
+  final title = 'Account';
+  Widget adminPanel;
 
   Future<bool> signOut() async {
     var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
@@ -27,6 +33,7 @@ class UserAccountViewModel extends BaseViewModel {
 
   Future initialise() async {
     _updateUser();
+    showAdminPanel();
   }
 
   String getName() {
@@ -46,7 +53,28 @@ class UserAccountViewModel extends BaseViewModel {
     return _locationService.currentPostion;
   }
 
-  Future _updateUser() async {
+  void _updateUser() {
     user = _authenticationService.currentUser;
+  }
+
+  void navigateToAdminPanel() {
+    _navigationService.navigateTo(Routes.adminPanelView);
+    _logger.i("Navigating to AdminPanelView");
+  }
+
+  showAdminPanel() {
+    _logger.d("User role: ${user.role}");
+    if (user.role == RolesType.admin) {
+      adminPanel = ButtonBar(
+        children: [
+          FlatButton(
+            onPressed: () => navigateToAdminPanel(),
+            child: Text('Admin Panel'),
+            color: Colors.blue,
+          )
+        ],
+      );
+      notifyListeners();
+    }
   }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
+import 'package:roam_free/enums/roles.dart';
 import 'firestore_service.dart';
 import 'package:roam_free/models/user.dart';
 
@@ -31,6 +32,7 @@ class AuthenticationService {
     @required String lastName,
     @required String email,
     @required String password,
+    @required RolesType role,
   }) async {
     try {
       var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -38,11 +40,11 @@ class AuthenticationService {
 
       await _firestoreService.createUser(
         User(
-          id: authResult.user.uid,
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-        ),
+            id: authResult.user.uid,
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            roleString: User.roleEnumToString(role)),
       );
       await _populateCurrentUser(authResult.user);
       return authResult.user != null;

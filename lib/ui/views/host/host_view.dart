@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:roam_free/models/host.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/ui/widgets/icon_text_button.dart';
 import 'package:stacked/stacked.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -113,7 +114,19 @@ class HostView extends StatelessWidget {
                   child: GridView.count(
                     shrinkWrap: true,
                     crossAxisCount: 4,
-                    children: model.generateServices(host.services),
+                    children: model.generateFiltersGrid(
+                        host.services, FiltersType.services),
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text('Activities'),
+                subtitle: IgnorePointer(
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 4,
+                    children: model.generateFiltersGrid(
+                        host.activities, FiltersType.activities),
                   ),
                 ),
               ),

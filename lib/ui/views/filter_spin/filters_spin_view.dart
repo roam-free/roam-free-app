@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:roam_free/enums/filters_type.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'filters_spin_view_model.dart';
 
 // ignore: must_be_immutable
 class FilterSpinView extends StatelessWidget {
-  String title;
+  String filterId;
   FiltersType filtersRef;
-  ImageProvider image;
 
   FilterSpinView({
-    @required this.title,
+    @required this.filterId,
     @required this.filtersRef,
-    this.image,
   });
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FiltersSpinViewModel>.reactive(
-      onModelReady: (model) => model.initialise(title, image, filtersRef),
+      onModelReady: (model) => model.initialise(filtersRef, filterId),
       builder: (context, model, child) => Container(
         height: 80,
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -32,7 +30,7 @@ class FilterSpinView extends StatelessWidget {
               child: ListTile(
                 title: Text(model.title),
                 subtitle: SpinBox(
-                  onChanged: (double value) => model.onChanged(value),
+                  onChanged: (var value) => model.onChanged(value),
                   value: model.currentDistance,
                   min: 0,
                   max: 1000,

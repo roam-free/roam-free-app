@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:roam_free/services/authentication_service.dart';
+import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/home_service.dart';
 import 'package:roam_free/services/firestore_service.dart';
 import 'package:roam_free/services/google_maps_service.dart';
@@ -27,4 +28,6 @@ void setupLocator() {
   _logger.i("Home Service Started");
   locator.registerLazySingleton(() => BottomSheetService());
   _logger.i("Authentication Service Started");
+  locator.registerLazySingleton(() => FilterService());
+  _logger.i("Filter Service Started");
 }

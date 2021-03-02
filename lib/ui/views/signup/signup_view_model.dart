@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:roam_free/app/router.gr.dart';
+import 'package:roam_free/enums/roles.dart';
 import 'package:roam_free/services/authentication_service.dart';
 import 'package:roam_free/services/location_service.dart';
 import 'package:stacked/stacked.dart';
@@ -28,6 +29,7 @@ class SignupViewModel extends BaseViewModel {
       password: password,
       firstName: firstName.trim(),
       lastName: lastName.trim(),
+      role: RolesType.user,
     );
 
     setBusy(false);

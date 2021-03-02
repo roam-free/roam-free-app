@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:roam_free/app/locator.dart';
+import 'package:roam_free/models/filter_group.dart';
 import 'package:roam_free/services/home_service.dart';
 import 'package:roam_free/ui/views/filters/filters_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:roam_free/services/filter_service.dart';
 
 class FiltersViewModel extends BaseViewModel {
   final HomeService _homeService = locator<HomeService>();
+  final FilterService _filterService = locator<FilterService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
   void initialise() {}
 
-  Map<String, double> getDistanceFilters() {
-    return _homeService.distanceFilters;
+  FilterGroup getFilterGroup(id) {
+    FilterGroup filterGroup = _filterService.getFilterGroup(id);
+
+    return filterGroup;
   }
 
   void refreshHome() {
@@ -25,10 +30,7 @@ class FiltersViewModel extends BaseViewModel {
   }
 
   void clearFilters(context) async {
-    _homeService.serviceFilters.forEach((key, value) {
-      _homeService.serviceFilters[key] = false;
-    });
-    _homeService.distanceFilters['distance'] = 100;
+    _filterService.resetToDefaults();
     _homeService.refreshHome();
     Navigator.pushReplacement(
       context,
