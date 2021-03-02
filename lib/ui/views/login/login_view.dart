@@ -7,9 +7,6 @@ import 'package:stacked/stacked.dart';
 import 'package:roam_free/ui/views/login/login_view_model.dart';
 
 class LoginView extends StatelessWidget {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
@@ -32,13 +29,13 @@ class LoginView extends StatelessWidget {
               // TODO: Add additional user data here to save (episode 2)
               InputField(
                 placeholder: 'Email',
-                controller: emailController,
+                controller: model.emailController,
               ),
               verticalSpaceSmall,
               InputField(
                 placeholder: 'Password',
                 password: true,
-                controller: passwordController,
+                controller: model.passwordController,
                 additionalNote: 'Password has to be a minimum of 6 characters.',
               ),
               verticalSpaceMedium,
@@ -51,8 +48,8 @@ class LoginView extends StatelessWidget {
                     busy: model.isBusy,
                     onPressed: () {
                       model.login(
-                        email: emailController.text,
-                        password: passwordController.text,
+                        email: model.emailController.text,
+                        password: model.passwordController.text,
                       );
                     },
                   )

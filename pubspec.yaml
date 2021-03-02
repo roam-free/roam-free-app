@@ -53,6 +53,8 @@ dependencies:
   smart_select:
   logger:
   logger_flutter:
+  image_picker:
+  dotted_border:
 
   
 

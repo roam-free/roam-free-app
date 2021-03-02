@@ -51,6 +51,7 @@ class UserAccountView extends StatelessWidget {
             },
           ),
         ),
+        bottomNavigationBar: model.adminPanel,
       ),
     );
   }

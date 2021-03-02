@@ -9,9 +9,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../ui/views/admin_panel/admin_panel_view.dart';
 import '../ui/views/filters/filters_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
+import '../ui/views/new_host/new_host_view.dart';
 import '../ui/views/search/search_view.dart';
 import '../ui/views/signup/signup_view.dart';
 import '../ui/views/startup/startup_view.dart';
@@ -25,6 +27,8 @@ class Routes {
   static const String userAccountView = '/user-account-view';
   static const String searchView = '/search-view';
   static const String filtersView = '/filters-view';
+  static const String adminPanelView = '/admin-panel-view';
+  static const String newHostView = '/new-host-view';
   static const all = <String>{
     startupView,
     signupView,
@@ -33,6 +37,8 @@ class Routes {
     userAccountView,
     searchView,
     filtersView,
+    adminPanelView,
+    newHostView,
   };
 }
 
@@ -47,6 +53,8 @@ class Router extends RouterBase {
     RouteDef(Routes.userAccountView, page: UserAccountView),
     RouteDef(Routes.searchView, page: SearchView),
     RouteDef(Routes.filtersView, page: FiltersView),
+    RouteDef(Routes.adminPanelView, page: AdminPanelView),
+    RouteDef(Routes.newHostView, page: NewHostView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -90,6 +98,18 @@ class Router extends RouterBase {
     FiltersView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => FiltersView(),
+        settings: data,
+      );
+    },
+    AdminPanelView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AdminPanelView(),
+        settings: data,
+      );
+    },
+    NewHostView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => NewHostView(),
         settings: data,
       );
     },

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
 import 'package:roam_free/app/router.gr.dart';
@@ -14,6 +15,9 @@ class LoginViewModel extends BaseViewModel {
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
   final LocationService _locationService = locator<LocationService>();
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   Future login({@required String email, @required String password}) async {
     setBusy(true);

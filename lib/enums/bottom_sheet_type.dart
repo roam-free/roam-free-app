@@ -1,3 +1,4 @@
 enum BottomSheetType {
   filters,
+  newHost,
 }

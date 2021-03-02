@@ -36,14 +36,15 @@ class GoogleMapsService {
     _controller.complete(controller);
   }
 
-  Future<Prediction> searchPlaces(
-    BuildContext context,
-    String language,
-  ) async {
+  Future<Prediction> searchPlaces({
+    @required BuildContext context,
+    @required String language,
+    @required Mode mode,
+  }) async {
     Prediction prediction = await PlacesAutocomplete.show(
         context: context,
         apiKey: kGoogleApiKey,
-        mode: Mode.overlay, // Mode.fullscreen
+        mode: mode, // Mode.fullscreen / Mode.overlay
         language: language,
         components: [new Component(Component.country, "uk")]);
 

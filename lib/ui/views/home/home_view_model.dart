@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logger/logger.dart';
 import 'package:roam_free/app/locator.dart';
-import 'package:roam_free/models/host.dart';
 import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/home_service.dart';
 import 'package:roam_free/services/firestore_service.dart';
