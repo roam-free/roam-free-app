@@ -4,7 +4,6 @@ import 'package:roam_free/ui/widgets/image_selection_box.dart';
 import 'package:roam_free/ui/widgets/input_field.dart';
 import 'package:roam_free/ui/widgets/input_field_multiline.dart';
 import 'package:roam_free/ui/widgets/select_box.dart';
-import 'package:roam_free/ui/widgets/multi_choice_select_box.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +13,7 @@ class NewHostView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<NewHostViewModel>.reactive(
+      onModelReady: (model) => model.initialise(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           title: Text('Add New Host'),
@@ -54,6 +54,19 @@ class NewHostView extends StatelessWidget {
                 placeholder: 'Services',
                 controller: model.servicesController,
                 onPressed: () => model.selectServices(),
+              ),
+              SelectBox(
+                placeholder: 'Activities',
+                controller: model.activitiesController,
+                onPressed: () => model.selectActivities(),
+              ),
+              ButtonBar(
+                children: [
+                  RaisedButton(
+                      onPressed: () => model.save(),
+                      child: Text('SAVE'),
+                      color: Colors.greenAccent[400]),
+                ],
               ),
             ],
           ),

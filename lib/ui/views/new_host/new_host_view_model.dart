@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:roam_free/enums/bottom_sheet_type.dart';
+import 'package:roam_free/models/filter_group.dart';
 import 'package:roam_free/services/filter_service.dart';
 import 'package:roam_free/services/google_maps_service.dart';
 import 'package:roam_free/ui/widgets/add_image_button.dart';
@@ -20,6 +21,7 @@ class NewHostViewModel extends BaseViewModel {
   final GoogleMapsService _googleMapsService = locator<GoogleMapsService>();
   final BottomSheetService _bottomSheetService = locator<BottomSheetService>();
   final FirestoreService _firestoreService = locator<FirestoreService>();
+  final FilterService _filterService = locator<FilterService>();
   final ImagePicker _picker = ImagePicker();
   final Logger _logger = Logger();
 
@@ -29,11 +31,17 @@ class NewHostViewModel extends BaseViewModel {
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
   final servicesController = TextEditingController();
-
+  final activitiesController = TextEditingController();
   LatLng location;
-
+  FilterGroup servicesGroup;
+  FilterGroup activitiesGroup;
   List<File> images = [];
   int imageCount = 0;
+
+  void initialise() {
+    servicesGroup = _filterService.setupServiceFilterGroup();
+    activitiesGroup = _filterService.setupActivitiesFilterGroup();
+  }
 
   Future chooseImage() async {
     _logger.d("chooseImage() Called");
@@ -111,10 +119,34 @@ class NewHostViewModel extends BaseViewModel {
         customData: {
           "ref": FiltersType.services,
           "callback": updateSelected,
+          "group": servicesGroup
         });
   }
 
-  void updateSelected() {
-    notifyListeners();
+  void selectActivities() {
+    _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.newHost,
+        barrierDismissible: true,
+        title: 'Activities',
+        customData: {
+          "ref": FiltersType.activities,
+          "callback": updateSelected,
+          "group": activitiesGroup
+        });
+  }
+
+  void updateSelected(FiltersType ref, FilterGroup filterGroup) {
+    switch (ref) {
+      case FiltersType.services:
+        servicesGroup = filterGroup;
+        servicesController.text = servicesGroup.getNamesByEnabled();
+        break;
+      default:
+        break;
+    }
+  }
+
+  Future<void> save() async {
+    _firestoreService;
   }
 }

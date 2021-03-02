@@ -19,4 +19,12 @@ class FilterGroup {
   void add(filter) {
     _filters[filter.id] = filter;
   }
+
+  String getNamesByEnabled() {
+    String str = "";
+    _filters.forEach((filterName, filter) {
+      if (filter.currentValue == true) str = str + '${filter.name}, ';
+    });
+    return str;
+  }
 }

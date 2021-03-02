@@ -23,12 +23,12 @@ class FilterService {
 
   void setupFilters() {
     _logger.i("Setting up Filters");
-    _filterGroups[FiltersType.services] = _setupServiceFilterGroup();
-    _filterGroups[FiltersType.distances] = _setupDistanceFilterGroup();
-    _filterGroups[FiltersType.activities] = _setupActivitiesFilterGroup();
+    _filterGroups[FiltersType.services] = setupServiceFilterGroup();
+    _filterGroups[FiltersType.distances] = setupDistanceFilterGroup();
+    _filterGroups[FiltersType.activities] = setupActivitiesFilterGroup();
   }
 
-  FilterGroup _setupServiceFilterGroup() {
+  FilterGroup setupServiceFilterGroup() {
     FilterGroup group = new FilterGroup(FiltersType.services, 'Services');
 
     group.add(
@@ -59,7 +59,7 @@ class FilterService {
     return group;
   }
 
-  FilterGroup _setupDistanceFilterGroup() {
+  FilterGroup setupDistanceFilterGroup() {
     FilterGroup group =
         new FilterGroup(FiltersType.distances, 'Distances \(km\)');
 
@@ -68,7 +68,7 @@ class FilterService {
     return group;
   }
 
-  FilterGroup _setupActivitiesFilterGroup() {
+  FilterGroup setupActivitiesFilterGroup() {
     FilterGroup group = new FilterGroup(FiltersType.activities, 'Actvities');
 
     group.add(Filter('beach', 'Beach', false, Icons.beach_access));
