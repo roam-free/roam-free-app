@@ -8,7 +8,7 @@ import 'package:google_maps_webservice/places.dart';
 
 class GoogleMapsService {
   Completer<GoogleMapController> _controller = Completer();
-  final kGoogleApiKey = "AIzaSyC14hnbO0paTKIJvLoCuiFgndpCCT311zc";
+  final kGoogleApiKey = "redacted";
 
   //Completer<GoogleMapController> get controller => _controller;
 
